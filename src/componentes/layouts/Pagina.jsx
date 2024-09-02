@@ -1,5 +1,6 @@
 import Cabecalho from "./Cabecalho.jsx";
 import Menu from "./Menu.jsx";
+import TelaCadastro from "./TelaCadastro.jsx";
 
 export default function Pagina(props) {
     //método render
