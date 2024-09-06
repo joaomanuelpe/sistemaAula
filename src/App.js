@@ -1,15 +1,30 @@
-import { Container } from "react-bootstrap";
+
 import Pagina from "./componentes/layouts/Pagina.jsx";
-import TelaCadastro from "./componentes/layouts/TelaCadastro.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TelaCadastroCategoria from "./componentes/Telas/TelaCadastroCategoria.jsx";
+import TelaMenu from "./componentes/Telas/TelaMenu.jsx";
+import Tela404 from "./componentes/Telas/Tela404.jsx";
+import TelaCadastroCliente from "./componentes/Telas/TelaCadastroCliente.jsx";
+import TelaCadastroForn from "./componentes/Telas/TelaCadastroForn.jsx";
+import TelaCadastroProduto from "./componentes/Telas/TelaCadastroProduto.jsx";
+
 
 function App() {
   return (
     <div className="App">
-      <Container>
-        <Pagina>
-          <TelaCadastro />
-        </Pagina>
-      </Container>
+      <BrowserRouter>
+        {
+          //A ordem das rotas é importante
+        }
+        <Routes>
+          <Route path="/cliente" element={<TelaCadastroCliente />} />
+          <Route path="/fornecedor" element={<TelaCadastroForn />} />
+          <Route path="/produto" element={<TelaCadastroProduto />} />
+          <Route path="/categoria" element={<TelaCadastroCategoria />} />
+          <Route path="/" element={<TelaMenu />} />
+          <Route path="*" element={<Tela404 />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
