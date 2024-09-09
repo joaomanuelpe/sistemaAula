@@ -78,7 +78,17 @@ export default function FormularioForn(props) {
                     feedbackType="invalid"
                 />
             </Form.Group>
-            <Button type="submit">Cadastrar</Button>
+            <Row className='mt-2 mb-2'>
+                <Col md={1}>
+                    <Button type="submit">Confirmar</Button>
+                </Col>
+                <Col md={{offset:1}}>
+                    <Button onClick={() => {
+                        props.setExibirTabela(true);
+                    }}>Voltar</Button>
+                </Col>
+            </Row>
         </Form >
+
     );
 }
