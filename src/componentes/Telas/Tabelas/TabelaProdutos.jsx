@@ -8,7 +8,7 @@ export default function TabelaProdutos(props) {
                 <Button className="mb-3" variant="primary" onClick={() => {
                     props.setExibirTabela(false);
                 }}>Adicionar</Button>
-                <Table striped bordered hover>
+                <Table className="mt-4" striped bordered hover>
                     <thead>
                         <tr>
                             <th>Código</th>

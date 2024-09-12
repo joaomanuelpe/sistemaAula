@@ -1,3 +1,4 @@
+import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -7,37 +8,48 @@ import Row from 'react-bootstrap/Row';
 export default function FormularioCategoria(props) {
     //método render
     return (
-        <Form >
-            <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="">
-                    <Form.Label>Código</Form.Label>
-                    <Form.Control
+        <Container>
+            <Form >
+                <Row className="mb-3">
+                    <Form.Group as={Col} md="4" controlId="">
+                        <Form.Label>Código</Form.Label>
+                        <Form.Control
+                            required
+                            type="codigo"
+                            placeholder="Código do Produto"
+                            defaultValue=""
+                        />
+                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} md="5" controlId="">
+                        <Form.Label>Descrição</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="Descrição do Produto"
+                        />
+                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Form.Group className="mb-3">
+                    <Form.Check
                         required
-                        type="codigo"
-                        placeholder="Código do Produto"
-                        defaultValue=""
+                        label="Concordo com os termos e diretrizes."
+                        feedback="Você precisa concordar para continuar."
+                        feedbackType="invalid"
                     />
-                    <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="5" controlId="">
-                    <Form.Label>Descrição</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="Descrição do Produto"
-                    />
-                    <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
-                </Form.Group>
-            </Row>
-            <Form.Group className="mb-3">
-                <Form.Check
-                    required
-                    label="Concordo com os termos e diretrizes."
-                    feedback="Você precisa concordar para continuar."
-                    feedbackType="invalid"
-                />
-            </Form.Group>
-            <Button type="submit">Cadastrar</Button>
-        </Form >
+                <Row className='mt-2 mb-2'>
+                    <Col md={1}>
+                        <Button type="submit">Confirmar</Button>
+                    </Col>
+                    <Col md={{ offset: 1 }}>
+                        <Button onClick={() => {
+                            props.setExibirTabela(true);
+                        }}>Voltar</Button>
+                    </Col>
+                </Row>
+            </Form >
+        </Container>
     );
 }
