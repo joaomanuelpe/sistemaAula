@@ -15,7 +15,7 @@ export default function TelaCadastroCliente(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : <FormularioProduto setExibirTabela={setExibirTabela}/>
+                        <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : <FormularioProduto listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/>
                 }
             </Pagina>
         </>
