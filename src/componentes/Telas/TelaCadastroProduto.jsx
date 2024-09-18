@@ -7,15 +7,26 @@ import { produtos } from "../../dados/mockProdutos"
 
 export default function TelaCadastroCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaProdutos, setListaProdutos] = useState(produtos);
+    const [editarTabela, setEditarTabela] = useState(false);
+    const [produto, setProduto] = useState({
+        codigo: 0,
+        descricao: "",
+        precoCusto: 0,
+        precoVenda: 0,
+        estoque: 0,
+        urlImagem: "",
+        dtValidade: ""
+    });
     return (
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>Cadastro de Produto</h2>
+                    <h2>{exibirTabela? "Produtos" : editarTabela ? "Alterar Produto" : "Cadastrar Produto"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : <FormularioProduto listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/>
+                        <TabelaProdutos listaDeProdutos={listaProdutos} setListaProdutos={setListaProdutos} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} produto={produto} setProduto={setProduto} /> : <FormularioProduto listaDeProdutos={listaProdutos} setListaProdutos={setListaProdutos} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} produto={produto} setProduto={setProduto} />
                 }
             </Pagina>
         </>
