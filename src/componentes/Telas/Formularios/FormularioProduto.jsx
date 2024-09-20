@@ -24,10 +24,9 @@ export default function FormularioForn(props) {
         if (form.checkValidity()) {
             if (props.editarTabela) {
                 props.setListaProdutos([...props.listaDeProdutos.map((item) => {
-                    return item.codigo === produtoAlterar.codigo ? produto : item
+                    return item.codigo === produtoAlterar.codigo ? produto : item;
                 })], produtoAlterar);
                 props.setEditarTabela(false);
-                props.setProduto(produtoInicial);
             } else {            //cadastrar o produto
                 props.setListaProdutos([...props.listaDeProdutos, produto]);
                 //exibir tabela com o produto incluído
@@ -63,7 +62,6 @@ export default function FormularioForn(props) {
                             name='codigo'
                             value={produto.codigo}
                             placeholder="Código do Produto"
-                            defaultValue=""
                             onChange={changeControl}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>

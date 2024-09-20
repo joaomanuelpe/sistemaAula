@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
 
 export default function TabelaProdutos(props) {
@@ -12,7 +11,6 @@ export default function TabelaProdutos(props) {
     }
 
     function changeProduct(produto) {
-        console.log(produto);
         props.setEditarTabela(true);
         props.setExibirTabela(false);
         props.setProduto(

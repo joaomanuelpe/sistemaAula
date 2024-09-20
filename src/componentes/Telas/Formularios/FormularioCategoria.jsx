@@ -2,22 +2,61 @@ import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+import { useState } from 'react';
 
 export default function FormularioCategoria(props) {
+    const categoriaInicial = {
+        codigo: 0,
+        descricao: ""
+    }
+    const categoriaAlterar = props.categoria;
+    const [categoria, setCategoria] = useState(categoriaAlterar);
+    const [formValidado, setFormValidado] = useState(false);
+
+    function handleSubmit(evento) {
+        const form = evento.currentTarget;
+        if (form.checkValidity()) {
+            if (props.editarTabela) {
+                props.setListaDeCategorias([...props.listaDeCategorias.map((aux) => {
+                    return aux.codigo === categoriaAlterar.codigo ? categoria : aux
+                })], categoriaAlterar);
+                props.setEditarTabela(false);
+            } else {
+                props.setListaDeCategorias([...props.listaDeCategorias, categoria])
+            }
+            props.setExibirTabela(true);
+            setCategoria(categoriaInicial);
+            setFormValidado(false);
+        } else {
+            setFormValidado(true);
+        }
+        evento.preventDefault();
+        evento.stopPropagation();
+    }
+
+
+    function changeControl(evento) {
+        const elemento = evento.target.name;
+        const valor = evento.target.value;
+        setCategoria({ ...categoria, [elemento]: valor });
+    }
+
     //método render
     return (
         <Container>
-            <Form >
+            <Form noValidate validated = {formValidado} onSubmit={handleSubmit} >
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="">
                         <Form.Label>Código</Form.Label>
                         <Form.Control
                             required
+                            id='codigo'
+                            name='codigo'
                             type="codigo"
                             placeholder="Código do Produto"
-                            defaultValue=""
+                            value={categoria.codigo}
+                            onChange={changeControl}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -25,8 +64,12 @@ export default function FormularioCategoria(props) {
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control
                             required
+                            id='descricao'
+                            name='descricao'
                             type="text"
                             placeholder="Descrição do Produto"
+                            value={categoria.descricao}
+                            onChange={changeControl}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -46,6 +89,8 @@ export default function FormularioCategoria(props) {
                     <Col md={{ offset: 1 }}>
                         <Button onClick={() => {
                             props.setExibirTabela(true);
+                            props.setEditarTabela(false);
+                            props.setCategoria(categoriaInicial)
                         }}>Voltar</Button>
                     </Col>
                 </Row>

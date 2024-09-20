@@ -7,15 +7,27 @@ import { fornecedores } from "../../dados/mockFornecedores.js"
 
 export default function TelaCadastroCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeFornecedores, setListaDeFornecedores] = useState(fornecedores);
+    const [editarTabela, setEditarTabela] = useState(false);
+    const [fornecedor, setFornecedor] = useState({
+        nome: "",
+        cpf: "",
+        telefone: "",
+        bairro: "",
+        rua: "",
+        cidade: "",
+        estado: ""
+    });
+
     return (
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>Cadastro de Fornecedor</h2>
+                    <h2>{exibirTabela ? "Fornecedores" : editarTabela ? "Alterar Fornecedor" : "Cadastrar Fornecedor"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaFornecedor listaDeFornecedores={fornecedores} setExibirTabela={setExibirTabela}/> : <FormularioForn setExibirTabela={setExibirTabela}/>
+                        <TabelaFornecedor listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} fornecedor={fornecedor} setFornecedor={setFornecedor} /> : <FormularioForn listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} fornecedor={fornecedor} setFornecedor={setFornecedor} />
                 }
             </Pagina>
         </>

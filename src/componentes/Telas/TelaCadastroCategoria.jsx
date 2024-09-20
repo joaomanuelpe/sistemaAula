@@ -8,19 +8,26 @@ import { categorias } from "../../dados/mockCategorias.js"
 
 export default function TelaCadastroCategoria(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
+    const [editarTabela, setEditarTabela] = useState(false);
+    const [categoria, setCategoria] = useState({
+        codigo: 0,
+        descricao: ""
+    });
+
     //método render
     return (
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>Cadastro de Categoria</h2>
+                    <h2>{exibirTabela ? "Categorias" : editarTabela ? "Alterar Categoria" : "Cadastrar Categoria"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaCategorias listaDeCategorias={categorias} setExibirTabela={setExibirTabela}/> : <FormularioCategoria setExibirTabela={setExibirTabela}/>
+                        <TabelaCategorias listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} categoria={categoria} setCategoria={setCategoria} /> : <FormularioCategoria listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} categoria={categoria} setCategoria={setCategoria} />
                 }
             </Pagina>
         </>
-        
+
     )
 }
