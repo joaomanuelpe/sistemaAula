@@ -76,6 +76,7 @@ export default function FormularioForn(props) {
                             placeholder="XXX.XXX.XXX-XX"
                             value={fornecedor.cpf}
                             onChange={changeControl}
+                            disabled={props.editarTabela}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>

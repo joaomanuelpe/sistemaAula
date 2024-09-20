@@ -74,6 +74,7 @@ export default function FormularioCLiente(props) {
                             placeholder="XXX.XXX.XXX-XX"
                             value={cliente.cpf}
                             onChange={changeControl}
+                            disabled={props.editarTabela}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>

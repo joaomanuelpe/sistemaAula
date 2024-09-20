@@ -57,6 +57,7 @@ export default function FormularioCategoria(props) {
                             placeholder="Código do Produto"
                             value={categoria.codigo}
                             onChange={changeControl}
+                            disabled={props.editarTabela}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
