@@ -7,6 +7,7 @@ import Tela404 from "./componentes/Telas/Tela404.jsx";
 import TelaCadastroCliente from "./componentes/Telas/TelaCadastroCliente.jsx";
 import TelaCadastroForn from "./componentes/Telas/TelaCadastroForn.jsx";
 import TelaCadastroProduto from "./componentes/Telas/TelaCadastroProduto.jsx";
+import TelaCadastroUsuario from "./componentes/Telas/TelaCadastroUsuario.jsx";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/fornecedor" element={<TelaCadastroForn />} />
           <Route path="/produto" element={<TelaCadastroProduto />} />
           <Route path="/categoria" element={<TelaCadastroCategoria />} />
+          <Route path="/usuario" element={<TelaCadastroUsuario />}/>
           <Route path="/" element={<TelaMenu />} />
           <Route path="*" element={<Tela404 />} />
         </Routes>

@@ -1,6 +1,5 @@
 import Cabecalho from "./Cabecalho.jsx";
 import Menu from "./Menu.jsx";
-import TelaCadastro from "../Telas/TelaCadastroCategoria.jsx";
 import { Alert } from "react-bootstrap";
 
 export default function Pagina(props) {
