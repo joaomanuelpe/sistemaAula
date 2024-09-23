@@ -5,32 +5,32 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-export default function FormularioForn(props) {
 
-    const fornecedorInicial = {
-        nome: "",
-        cpf: "",
-        telefone: "",
-        bairro: "",
-        rua: "",
-        cidade: "",
-        estado: ""
-    };
-    const fornecedorAlterar = props.fornecedor;
-    const [fornecedor, setFornecedor] = useState(fornecedorAlterar);
+export default function FormularioEntregador(props) {
+    const entregadorInicial = 
+            {
+                id: 0,
+                nome: "",
+                cnh:"",
+                veiculo:"",
+                placa:"",
+                capacidadeMax:0,
+            }
+    const entregadorAlterar = props.entregador;
+    const [entregador, setEntregador] = useState(entregadorAlterar);
     const [formValidado, setFormValidado] = useState(false);
 
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (props.edicao) {
-                props.setListaDeFornecedores([...props.listaDeFornecedores.map((aux) => { return aux.cpf === fornecedorAlterar.cpf ? fornecedor : aux })], fornecedorAlterar);
+                props.setListaEntregadores([...props.listaDeEntregadores.map((aux) => { return aux.id === entregadorAlterar.id ? entregador : aux })], entregadorAlterar);
                 props.setEdicao(false);
             } else {
-                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
+                props.setListaEntregadores([...props.listaDeEntregadores, entregador]);
             }
             props.setExibirTabela(true);
-            setFornecedor(fornecedorInicial);
+            setEntregador(entregadorInicial);
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -39,19 +39,36 @@ export default function FormularioForn(props) {
         evento.stopPropagation();
     }
 
-
     function changeControl(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setFornecedor({ ...fornecedor, [elemento] : valor });
+        setEntregador({ ...entregador, [elemento]: valor });
     }
 
-    //método render
+
+
+
     return (
         <Container>
             <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
                 <Row className="mb-12">
                     <Form.Group as={Col} md="9" controlId="">
+                        <Form.Label>id</Form.Label>
+                        <Form.Control
+                            required
+                            id="id"
+                            name='id'
+                            type="number"
+                            placeholder="id"
+                            value={entregador.id}
+                            onChange={changeControl}
+                            disabled={props.edicao}
+                        />
+                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} md="5" controlId="">
                         <Form.Label>Nome</Form.Label>
                         <Form.Control
                             required
@@ -59,52 +76,36 @@ export default function FormularioForn(props) {
                             name='nome'
                             type="text"
                             placeholder="nome"
-                            value={fornecedor.nome}
+                            value={entregador.nome}
                             onChange={changeControl}
-                        />
-                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="5" controlId="">
-                        <Form.Label>CPF</Form.Label>
-                        <Form.Control
-                            required
-                            id='cpf'
-                            name='cpf'
-                            type="text"
-                            placeholder="XXX.XXX.XXX-XX"
-                            value={fornecedor.cpf}
-                            onChange={changeControl}
-                            disabled={props.edicao}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col} md="4" controlId="validationCustom03">
-                        <Form.Label>Telefone</Form.Label>
-                        <Form.Control id='telefone' name='telefone' type="text" placeholder="(XX) XXXXX-XXXX" required value={fornecedor.telefone} onChange={changeControl} />
+                        <Form.Label>CNH</Form.Label>
+                        <Form.Control type="text" id='cnh' name='cnh' placeholder="imagem CNH" onChange={changeControl} value={entregador.cnh} required />
                         <Form.Control.Feedback type="invalid">
                             Por favor forneça um telefone válido.
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
                 <Row><Form.Group as={Col} md="5" controlId="">
-                    <Form.Label>Bairro</Form.Label>
+                    <Form.Label>Modelo do Veículo</Form.Label>
                     <Form.Control
                         required
-                        id='bairro'
-                        name='bairro'
                         type="text"
-                        placeholder="Bairro"
-                        value={fornecedor.bairro}
+                        id='veiculo'
+                        name='veiculo'
+                        placeholder="ex: Volkswagen Polo"
+                        value={entregador.veiculo}
                         onChange={changeControl}
                     />
                     <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                 </Form.Group>
 
                     <Form.Group as={Col} md="4" controlId="validationCustom04">
-                        <Form.Label>Rua</Form.Label>
-                        <Form.Control id='rua' name='rua' type="text" placeholder="Rua" required value={fornecedor.rua} onChange={changeControl}/>
+                        <Form.Label>Placa do Veículo</Form.Label>
+                        <Form.Control type="text" id='placa' name='placa' placeholder="LLLNLNN" onChange={changeControl} value={entregador.placa} required />
                         <Form.Control.Feedback type="invalid">
                             Por favor forneça este campo.
                         </Form.Control.Feedback>
@@ -112,44 +113,35 @@ export default function FormularioForn(props) {
                 </Row>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="6" controlId="validationCustom03">
-                        <Form.Label>Cidade</Form.Label>
-                        <Form.Control id='cidade' name='cidade' type="text" placeholder="Cidade" required value={fornecedor.cidade}
-                        onChange={changeControl}/>
+                        <Form.Label>Capacidade Máxima de Carga</Form.Label>
+                        <Form.Control type="number" id='capacidadeMax' name='capacidadeMax' placeholder="0" onChange={changeControl} value={entregador.capacidadeMax} required />
                         <Form.Control.Feedback type="invalid">
                             Por favor forneça um nome de cidade válida.
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group as={Col} md="3" controlId="validationCustom04">
-                        <Form.Label>Estado</Form.Label>
-                        <Form.Control id='estado' name='estado' type="text" placeholder="Estado" required value={fornecedor.estado}
-                        onChange={changeControl}/>
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-
                 </Row>
                 <Form.Group className="mb-3">
                     <Form.Check
                         required
                         label="Concordo com os termos e diretrizes."
                         feedback="Você precisa concordar para continuar."
+                        onChange={changeControl}
                         feedbackType="invalid"
                     />
                 </Form.Group>
                 <Row className='mt-2 mb-2'>
-                        <Col md={1}>
-                            <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
-                        </Col>
-                        <Col md={{ offset: 1 }}>
-                            <Button onClick={() => {
-                                props.setExibirTabela(true);
-                                props.setEdicao(false);
-                                props.setFornecedor(fornecedorInicial)
-                            }}>Voltar</Button>
-                        </Col>
-                    </Row>
+                    <Col md={1}>
+                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
+                    </Col>
+                    <Col md={{ offset: 1 }}>
+                        <Button onClick={() => {
+                            props.setExibirTabela(true);
+                            props.setEdicao(false);
+                            props.setEntregador(entregadorInicial)
+                        }}>Voltar</Button>
+                    </Col>
+                </Row>
             </Form >
-            </Container>
-            );
+        </Container>
+    );
 }

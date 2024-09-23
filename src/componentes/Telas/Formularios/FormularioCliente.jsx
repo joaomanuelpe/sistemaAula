@@ -22,9 +22,9 @@ export default function FormularioCLiente(props) {
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.editarTabela) {
+            if (props.edicao) {
                 props.setListaClientes([...props.listaDeClientes.map((aux) => { return aux.cpf === clienteAlterar.cpf ? cliente : aux })], clienteAlterar);
-                props.setEditarTabela(false);
+                props.setEdicao(false);
             } else {
                 props.setListaClientes([...props.listaDeClientes, cliente]);
             }
@@ -74,7 +74,7 @@ export default function FormularioCLiente(props) {
                             placeholder="XXX.XXX.XXX-XX"
                             value={cliente.cpf}
                             onChange={changeControl}
-                            disabled={props.editarTabela}
+                            disabled={props.edicao}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -136,12 +136,12 @@ export default function FormularioCLiente(props) {
                 </Form.Group>
                 <Row className='mt-2 mb-2'>
                     <Col md={1}>
-                        <Button type="submit">Confirmar</Button>
+                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
                     </Col>
                     <Col md={{ offset: 1 }}>
                         <Button onClick={() => {
                             props.setExibirTabela(true);
-                            props.setEditarTabela(false);
+                            props.setEdicao(false);
                             props.setCliente(clienteInicial)
                         }}>Voltar</Button>
                     </Col>

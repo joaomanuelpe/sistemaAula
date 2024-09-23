@@ -22,11 +22,11 @@ export default function FormularioForn(props) {
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.editarTabela) {
+            if (props.edicao) {
                 props.setListaProdutos([...props.listaDeProdutos.map((item) => {
                     return item.codigo === produtoAlterar.codigo ? produto : item;
                 })], produtoAlterar);
-                props.setEditarTabela(false);
+                props.setEdicao(false);
             } else {            //cadastrar o produto
                 props.setListaProdutos([...props.listaDeProdutos, produto]);
                 //exibir tabela com o produto incluído
@@ -63,7 +63,7 @@ export default function FormularioForn(props) {
                             value={produto.codigo}
                             placeholder="Código do Produto"
                             onChange={changeControl}
-                            disabled={props.editarTabela}
+                            disabled={props.edicao}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -131,12 +131,12 @@ export default function FormularioForn(props) {
                 </Form.Group>
                 <Row className='mt-2 mb-2'>
                     <Col md={1}>
-                        <Button type="submit">Confirmar</Button>
+                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
                     </Col>
                     <Col md={{ offset: 1 }}>
                         <Button onClick={() => {
                             props.setExibirTabela(true);
-                            props.setEditarTabela(false);
+                            props.setEdicao(false);
                             props.setProduto(produtoInicial);
                         }}>Voltar</Button>
                     </Col>

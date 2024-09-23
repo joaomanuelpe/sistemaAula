@@ -103,7 +103,7 @@ export default function FormularioUsuario(props) {
                 </Form.Group>
                 <Row className='mt-2 mb-2'>
                     <Col md={1}>
-                        <Button type="submit">Confirmar</Button>
+                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
                     </Col>
                     <Col md={{ offset: 1 }}>
                         <Button onClick={() => {

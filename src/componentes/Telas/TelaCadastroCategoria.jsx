@@ -9,7 +9,7 @@ import { categorias } from "../../dados/mockCategorias.js"
 export default function TelaCadastroCategoria(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
-    const [editarTabela, setEditarTabela] = useState(false);
+    const [edicao, setEdicao] = useState(false);
     const [categoria, setCategoria] = useState({
         codigo: 0,
         descricao: ""
@@ -20,11 +20,11 @@ export default function TelaCadastroCategoria(props) {
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>{exibirTabela ? "Categorias" : editarTabela ? "Alterar Categoria" : "Cadastrar Categoria"}</h2>
+                    <h2>{exibirTabela ? "Categorias" : edicao ? "Alterar Categoria" : "Cadastrar Categoria"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaCategorias listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} categoria={categoria} setCategoria={setCategoria} /> : <FormularioCategoria listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} categoria={categoria} setCategoria={setCategoria} />
+                        <TabelaCategorias listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} /> : <FormularioCategoria listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} />
                 }
             </Pagina>
         </>

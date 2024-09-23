@@ -11,7 +11,7 @@ export default function TabelaFornecedor(props) {
 
     function changeProvider(fornecedor) {
         props.setExibirTabela(false);
-        props.setEditarTabela(true);
+        props.setEdicao(true);
         props.setFornecedor({
             nome: fornecedor.nome,
             cpf: fornecedor.cpf,
@@ -77,6 +77,7 @@ export default function TabelaFornecedor(props) {
                         }
                     </tbody>
                 </Table>
+                <p>Quantidade de fornecedores cadastrados: {props.listaDeFornecedores.length}</p>
             </Container>
         </>
     );

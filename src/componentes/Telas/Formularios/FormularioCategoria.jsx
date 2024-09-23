@@ -17,11 +17,11 @@ export default function FormularioCategoria(props) {
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.editarTabela) {
+            if (props.edicao) {
                 props.setListaDeCategorias([...props.listaDeCategorias.map((aux) => {
                     return aux.codigo === categoriaAlterar.codigo ? categoria : aux
                 })], categoriaAlterar);
-                props.setEditarTabela(false);
+                props.setEdicao(false);
             } else {
                 props.setListaDeCategorias([...props.listaDeCategorias, categoria])
             }
@@ -57,7 +57,7 @@ export default function FormularioCategoria(props) {
                             placeholder="Código do Produto"
                             value={categoria.codigo}
                             onChange={changeControl}
-                            disabled={props.editarTabela}
+                            disabled={props.edicao}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -85,12 +85,12 @@ export default function FormularioCategoria(props) {
                 </Form.Group>
                 <Row className='mt-2 mb-2'>
                     <Col md={1}>
-                        <Button type="submit">Confirmar</Button>
+                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
                     </Col>
                     <Col md={{ offset: 1 }}>
                         <Button onClick={() => {
                             props.setExibirTabela(true);
-                            props.setEditarTabela(false);
+                            props.setEdicaoTabela(false);
                             props.setCategoria(categoriaInicial)
                         }}>Voltar</Button>
                     </Col>

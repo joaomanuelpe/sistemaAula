@@ -11,7 +11,7 @@ export default function TabelaCategorias(props) {
 
     function changeCategory(categoria) {
         props.setExibirTabela(false);
-        props.setEditarTabela(true);
+        props.setEdicao(true);
         props.setCategoria({
             codigo: categoria.codigo,
             descricao: categoria.descricao
@@ -58,6 +58,7 @@ export default function TabelaCategorias(props) {
                         }
                     </tbody>
                 </Table>
+                <p>Quantidade de categorias cadastradas: {props.listaDeCategorias.length}</p>
             </Container>
         </>
     );

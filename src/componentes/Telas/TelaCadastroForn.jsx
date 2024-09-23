@@ -8,7 +8,7 @@ import { fornecedores } from "../../dados/mockFornecedores.js"
 export default function TelaCadastroCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeFornecedores, setListaDeFornecedores] = useState(fornecedores);
-    const [editarTabela, setEditarTabela] = useState(false);
+    const [edicao, setEdicao] = useState(false);
     const [fornecedor, setFornecedor] = useState({
         nome: "",
         cpf: "",
@@ -23,11 +23,11 @@ export default function TelaCadastroCliente(props) {
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>{exibirTabela ? "Fornecedores" : editarTabela ? "Alterar Fornecedor" : "Cadastrar Fornecedor"}</h2>
+                    <h2>{exibirTabela ? "Fornecedores" : edicao ? "Alterar Fornecedor" : "Cadastrar Fornecedor"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaFornecedor listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} fornecedor={fornecedor} setFornecedor={setFornecedor} /> : <FormularioForn listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} editarTabela={editarTabela} setEditarTabela={setEditarTabela} fornecedor={fornecedor} setFornecedor={setFornecedor} />
+                        <TabelaFornecedor listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} fornecedor={fornecedor} setFornecedor={setFornecedor} /> : <FormularioForn listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} fornecedor={fornecedor} setFornecedor={setFornecedor} />
                 }
             </Pagina>
         </>

@@ -8,7 +8,7 @@ import { clientes } from "../../dados/mockClientes.js"
 export default function TelaCadastroCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeClientes, setListaClientes] = useState(clientes);
-    const [editarTabela, setEditarTabela] = useState(false);
+    const [edicao, setEdicao] = useState(false);
     const [cliente, setCliente] = useState({
         nome: "",
         cpf: "",
@@ -23,11 +23,11 @@ export default function TelaCadastroCliente(props) {
         <>
             <Pagina>
                 <Alert className="text-center">
-                    <h2>{exibirTabela ? "Clientes" : editarTabela ? "Alterar Cliente" : "Cadastro de Cliente"}</h2>
+                    <h2>{exibirTabela ? "Clientes" : edicao ? "Alterar Cliente" : "Cadastro de Cliente"}</h2>
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaClientes listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} editarTabela={editarTabela} setEditarTabela={setEditarTabela}/> : <FormularioCliente listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} editarTabela={editarTabela} setEditarTabela={setEditarTabela}/>
+                        <TabelaClientes listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/> : <FormularioCliente listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/>
                 }
             </Pagina>
         </>
