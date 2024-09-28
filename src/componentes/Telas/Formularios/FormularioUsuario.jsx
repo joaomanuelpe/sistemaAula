@@ -20,7 +20,7 @@ export default function FormularioUsuario(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (props.edicao) {
-                props.setListaUsuarios([...props.listaDeUsuarios.map((aux) => { return aux.nome === usuarioAlterar.nome ? usuario : aux })], usuarioAlterar);
+                props.setListaUsuarios([...props.listaDeUsuarios.map((aux) => { return aux.nome === usuarioAlterar.nome ? usuario : aux })]);
                 props.setEdicao(false);
             } else {
                 props.setListaUsuarios([...props.listaDeUsuarios, usuario]);
@@ -41,79 +41,126 @@ export default function FormularioUsuario(props) {
         setUsuario({ ...usuario, [elemento]: valor });
     }
 
-    //método render
     return (
-        <Container>
-            <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
-                <Row className="mb-12">
-                    <Form.Group as={Col} md="9" controlId="">
-                        <Form.Label>Nome</Form.Label>
-                        <Form.Control
-                            required
-                            id="nome"
-                            name='nome'
-                            type="text"
-                            placeholder="nome"
-                            value={usuario.nome}
-                            onChange={changeControl}
-                            disabled={props.edicao}
-                        />
-                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row><Form.Group as={Col} md="5" controlId="">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                        required
-                        type="password"
-                        id='senha'
-                        name='senha'
-                        placeholder="senha"
-                        value={usuario.senha}
-                        onChange={changeControl}
-                    />
-                    <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
-                </Form.Group>
+        <Container
+            fluid
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '100vh', background: 'linear-gradient(to top, #F5BFAE, #F5EDBF)' }}
+        >
+            <Container
+                style={{
+                    padding: '30px',
+                    backgroundColor: '#F4EED3',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    maxWidth: '600px',
+                    width: '100%',
+                }}
+            >
+                <h3 style={{ marginBottom: '20px', textAlign: 'center' }}>Cadastro de Usuário</h3>
+                <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} md="12" controlId="nome">
+                            <Form.Label>Nome</Form.Label>
+                            <Form.Control
+                                required
+                                id="nome"
+                                name='nome'
+                                type="text"
+                                placeholder="Digite o nome completo"
+                                value={usuario.nome}
+                                onChange={changeControl}
+                                style={{ borderRadius: '5px' }}
+                            />
+                            <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} md="6" controlId="senha">
+                            <Form.Label>Senha</Form.Label>
+                            <Form.Control
+                                required
+                                type="password"
+                                id='senha'
+                                name='senha'
+                                placeholder="Digite a senha"
+                                value={usuario.senha}
+                                onChange={changeControl}
+                                style={{ borderRadius: '5px' }}
+                            />
+                            <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} md="6" controlId="dtNascimento">
+                            <Form.Label>Data de Nascimento</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id='dtNascimento'
+                                name='dtNascimento'
+                                placeholder="DD/MM/AAAA"
+                                onChange={changeControl}
+                                value={usuario.dtNascimento}
+                                required
+                                style={{ borderRadius: '5px' }}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor, forneça uma data válida.
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="validationCustom04">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="text" id='email' name='email' placeholder="nomeusuario@gmail.com" onChange={changeControl} value={usuario.email} required />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
-                        </Form.Control.Feedback>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} md="12" controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="email"
+                                id='email'
+                                name='email'
+                                placeholder="nomeusuario@gmail.com"
+                                onChange={changeControl}
+                                value={usuario.email}
+                                required
+                                style={{ borderRadius: '5px' }}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor, forneça um email válido.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Row>
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            required
+                            label="Concordo com os termos e diretrizes."
+                            feedback="Você precisa concordar para continuar."
+                            feedbackType="invalid"
+                            style={{ marginLeft: '10px' }}
+                        />
                     </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="6" controlId="validationCustom03">
-                        <Form.Label>Data de Nascimento</Form.Label>
-                        <Form.Control type="text" id='dtNascimento' name='dtNascimento' placeholder="00/00/0000" onChange={changeControl} value={usuario.dtNascimento} required />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça uma data válida.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Form.Group className="mb-3">
-                    <Form.Check
-                        required
-                        label="Concordo com os termos e diretrizes."
-                        feedback="Você precisa concordar para continuar."
-                        onChange={changeControl}
-                        feedbackType="invalid"
-                    />
-                </Form.Group>
-                <Row className='mt-2 mb-2'>
-                    <Col md={1}>
-                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
-                    </Col>
-                    <Col md={{ offset: 1 }}>
-                        <Button onClick={() => {
-                            props.setExibirTabela(true);
-                            props.setEdicao(false);
-                            props.setUsuario(usuarioInicial)
-                        }}>Voltar</Button>
-                    </Col>
-                </Row>
-            </Form >
+                    <Row className='mt-4 mb-2'>
+                        <Col md={6}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                {props.edicao ? "Alterar" : "Confirmar"}
+                            </Button>
+                        </Col>
+                        <Col md={6}>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    props.setExibirTabela(true);
+                                    props.setEdicao(false);
+                                    props.setUsuario(usuarioInicial);
+                                }}
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                Voltar
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
         </Container>
     );
 }

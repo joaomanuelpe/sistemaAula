@@ -5,6 +5,13 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from "react-router-dom";
 
 export default function Menu(props) {
+    
+    function handleLogout() {
+        if(window.confirm("Deseja realmente sair da aplicação?")) {
+            window.location.href = "https://www.google.com";
+        };
+    }
+
     //método render
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -35,8 +42,8 @@ export default function Menu(props) {
                             <NavDropdown.Item href="#action/3.1">Compras</NavDropdown.Item>
 
                         </NavDropdown>
-                        <Nav.Link href="#link">Sobre</Nav.Link>
-                        <Nav.Link href="#link">Sair</Nav.Link>
+                        <Nav.Link as={Link} to="/sobre">Sobre</Nav.Link>
+                        <Nav.Link onClick={handleLogout} href="#link">Sair</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -1,7 +1,7 @@
 {
   "name": "sistemaaula",
   "version": "0.1.0",
-  "homepage": "https://joaomanuelpe.github.io/sistemaAula",
+  "homepage": "",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
-export default function FormularioCLiente(props) {
+export default function FormularioCliente(props) {
     const clienteInicial = {
         nome: "",
         cpf: "",
@@ -14,7 +14,7 @@ export default function FormularioCLiente(props) {
         rua: "",
         cidade: "",
         estado: ""
-    }
+    };
     const clienteAlterar = props.cliente;
     const [cliente, setCliente] = useState(clienteAlterar);
     const [formValidado, setFormValidado] = useState(false);
@@ -44,109 +44,165 @@ export default function FormularioCLiente(props) {
         setCliente({ ...cliente, [elemento]: valor });
     }
 
-    //método render
     return (
-        <Container>
-            <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
-                <Row className="mb-12">
-                    <Form.Group as={Col} md="9" controlId="">
+        <Container
+            fluid
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '100vh', background: 'linear-gradient(to top, #F5BFAE, #F5EDBF)' }}
+        >
+            <Container
+                style={{
+                    padding: '30px',
+                    backgroundColor: '#F4EED3',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    maxWidth: '600px',
+                    width: '100%',
+                }}
+            >
+                <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="nome">
                         <Form.Label>Nome</Form.Label>
                         <Form.Control
                             required
-                            id="nome"
-                            name='nome'
+                            name="nome"
                             type="text"
-                            placeholder="nome"
+                            placeholder="Digite o nome completo"
                             value={cliente.nome}
                             onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="5" controlId="">
+
+                    <Form.Group className="mb-3" controlId="cpf">
                         <Form.Label>CPF</Form.Label>
                         <Form.Control
                             required
-                            id='cpf'
-                            name='cpf'
+                            name="cpf"
                             type="text"
                             placeholder="XXX.XXX.XXX-XX"
                             value={cliente.cpf}
                             onChange={changeControl}
                             disabled={props.edicao}
+                            style={{ borderRadius: '5px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group as={Col} md="4" controlId="validationCustom03">
+
+                    <Form.Group className="mb-3" controlId="telefone">
                         <Form.Label>Telefone</Form.Label>
-                        <Form.Control type="text" id='telefone' name='telefone' placeholder="(XX) XXXXX-XXXX" onChange={changeControl} value={cliente.telefone} required />
+                        <Form.Control
+                            required
+                            name="telefone"
+                            type="text"
+                            placeholder="(XX) XXXXX-XXXX"
+                            value={cliente.telefone}
+                            onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
+                        />
                         <Form.Control.Feedback type="invalid">
-                            Por favor forneça um telefone válido.
+                            Por favor, forneça um telefone válido.
                         </Form.Control.Feedback>
                     </Form.Group>
-                </Row>
-                <Row><Form.Group as={Col} md="5" controlId="">
-                    <Form.Label>Bairro</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        id='bairro'
-                        name='bairro'
-                        placeholder="Bairro"
-                        value={cliente.bairro}
-                        onChange={changeControl}
-                    />
-                    <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
-                </Form.Group>
 
-                    <Form.Group as={Col} md="4" controlId="validationCustom04">
+                    <Form.Group className="mb-3" controlId="bairro">
+                        <Form.Label>Bairro</Form.Label>
+                        <Form.Control
+                            required
+                            name="bairro"
+                            type="text"
+                            placeholder="Digite o bairro"
+                            value={cliente.bairro}
+                            onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
+                        />
+                        <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="rua">
                         <Form.Label>Rua</Form.Label>
-                        <Form.Control type="text" id='rua' name='rua' placeholder="Rua" onChange={changeControl} value={cliente.rua} required />
+                        <Form.Control
+                            required
+                            name="rua"
+                            type="text"
+                            placeholder="Digite a rua"
+                            value={cliente.rua}
+                            onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
+                        />
                         <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="6" controlId="validationCustom03">
-                        <Form.Label>Cidade</Form.Label>
-                        <Form.Control type="text" id='cidade' name='cidade' placeholder="Cidade" onChange={changeControl} value={cliente.cidade} required />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça um nome de cidade válida.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="3" controlId="validationCustom04">
-                        <Form.Label>Estado</Form.Label>
-                        <Form.Control type="text" id='estado' name='estado' placeholder="Estado" onChange={changeControl} value={cliente.estado} required />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
+                            Por favor, forneça este campo.
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                </Row>
-                <Form.Group className="mb-3">
-                    <Form.Check
-                        required
-                        label="Concordo com os termos e diretrizes."
-                        feedback="Você precisa concordar para continuar."
-                        onChange={changeControl}
-                        feedbackType="invalid"
-                    />
-                </Form.Group>
-                <Row className='mt-2 mb-2'>
-                    <Col md={1}>
-                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
-                    </Col>
-                    <Col md={{ offset: 1 }}>
-                        <Button onClick={() => {
-                            props.setExibirTabela(true);
-                            props.setEdicao(false);
-                            props.setCliente(clienteInicial)
-                        }}>Voltar</Button>
-                    </Col>
-                </Row>
-            </Form >
+                    <Form.Group className="mb-3" controlId="cidade">
+                        <Form.Label>Cidade</Form.Label>
+                        <Form.Control
+                            required
+                            name="cidade"
+                            type="text"
+                            placeholder="Digite a cidade"
+                            value={cliente.cidade}
+                            onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Por favor, forneça uma cidade válida.
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="estado">
+                        <Form.Label>Estado</Form.Label>
+                        <Form.Control
+                            required
+                            name="estado"
+                            type="text"
+                            placeholder="Estado"
+                            value={cliente.estado}
+                            onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Por favor, forneça este campo.
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            required
+                            label="Concordo com os termos e diretrizes."
+                            feedback="Você precisa concordar para continuar."
+                            feedbackType="invalid"
+                        />
+                    </Form.Group>
+
+                    <Row className="mt-4 mb-2">
+                        <Col xs={6}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                {props.edicao ? "Alterar" : "Confirmar"}
+                            </Button>
+                        </Col>
+                        <Col xs={6}>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    props.setExibirTabela(true);
+                                    props.setEdicao(false);
+                                    props.setCliente(clienteInicial);
+                                }}
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                Voltar
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
         </Container>
     );
 }

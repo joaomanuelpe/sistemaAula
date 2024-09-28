@@ -6,7 +6,8 @@ import TelaCadastroCliente from "./componentes/Telas/TelaCadastroCliente.jsx";
 import TelaCadastroForn from "./componentes/Telas/TelaCadastroForn.jsx";
 import TelaCadastroProduto from "./componentes/Telas/TelaCadastroProduto.jsx";
 import TelaCadastroUsuario from "./componentes/Telas/TelaCadastroUsuario.jsx";
-import TelaCadastroEntregador from "./componentes/Telas/TelaCadastroEntregador.jsx"
+import TelaCadastroEntregador from "./componentes/Telas/TelaCadastroEntregador.jsx";
+import TelaSobre from "./componentes/Telas/TelaSobre.jsx";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/categoria" element={<TelaCadastroCategoria />} />
           <Route path="/usuario" element={<TelaCadastroUsuario />}/>
           <Route path="/entregador" element={<TelaCadastroEntregador />}/>
+          <Route path="/sobre" element={<TelaSobre />}/>
           <Route path="/" element={<TelaMenu />} />
           <Route path="*" element={<Tela404 />} />
         </Routes>

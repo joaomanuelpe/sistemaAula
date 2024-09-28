@@ -35,67 +35,93 @@ export default function FormularioCategoria(props) {
         evento.stopPropagation();
     }
 
-
     function changeControl(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
         setCategoria({ ...categoria, [elemento]: valor });
     }
 
-    //método render
     return (
-        <Container>
-            <Form noValidate validated = {formValidado} onSubmit={handleSubmit} >
-                <Row className="mb-3">
-                    <Form.Group as={Col} md="4" controlId="">
+        <Container
+            fluid
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: '100vh', background: 'linear-gradient(to top, #F5BFAE, #F5EDBF)' }}
+        >
+            <Container
+                style={{
+                    padding: '30px',
+                    backgroundColor: '#F4EED3',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    maxWidth: '600px',
+                    width: '100%',
+                }}
+            >
+                <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="codigo">
                         <Form.Label>Código</Form.Label>
                         <Form.Control
                             required
-                            id='codigo'
-                            name='codigo'
-                            type="codigo"
-                            placeholder="Código do Produto"
+                            name="codigo"
+                            type="text"
+                            placeholder="Código da Categoria"
                             value={categoria.codigo}
                             onChange={changeControl}
                             disabled={props.edicao}
+                            style={{ borderRadius: '5px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group as={Col} md="5" controlId="">
+
+                    <Form.Group className="mb-3" controlId="descricao">
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control
                             required
-                            id='descricao'
-                            name='descricao'
+                            name="descricao"
                             type="text"
-                            placeholder="Descrição do Produto"
+                            placeholder="Descrição da Categoria"
                             value={categoria.descricao}
                             onChange={changeControl}
+                            style={{ borderRadius: '5px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
-                </Row>
-                <Form.Group className="mb-3">
-                    <Form.Check
-                        required
-                        label="Concordo com os termos e diretrizes."
-                        feedback="Você precisa concordar para continuar."
-                        feedbackType="invalid"
-                    />
-                </Form.Group>
-                <Row className='mt-2 mb-2'>
-                    <Col md={1}>
-                        <Button type="submit">{props.edicao ? "Alterar" : "Confirmar"}</Button>
-                    </Col>
-                    <Col md={{ offset: 1 }}>
-                        <Button onClick={() => {
-                            props.setExibirTabela(true);
-                            props.setEdicaoTabela(false);
-                            props.setCategoria(categoriaInicial)
-                        }}>Voltar</Button>
-                    </Col>
-                </Row>
-            </Form >
+
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            required
+                            label="Concordo com os termos e diretrizes."
+                            feedback="Você precisa concordar para continuar."
+                            feedbackType="invalid"
+                        />
+                    </Form.Group>
+
+                    <Row className="mt-4 mb-2">
+                        <Col xs={6}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                {props.edicao ? "Alterar" : "Confirmar"}
+                            </Button>
+                        </Col>
+                        <Col xs={6}>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    props.setExibirTabela(true);
+                                    props.setEdicao(false);
+                                    props.setCategoria(categoriaInicial);
+                                }}
+                                style={{ borderRadius: '5px', width: '100%' }}
+                            >
+                                Voltar
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
         </Container>
     );
 }
