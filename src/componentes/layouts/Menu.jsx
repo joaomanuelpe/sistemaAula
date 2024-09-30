@@ -3,8 +3,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from "react-router-dom";
-import { Image } from 'react-bootstrap';
-import logoTrab from '../../assets/images/logoTrab.webp';
 
 export default function Menu(props) {
 
@@ -50,27 +48,6 @@ export default function Menu(props) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <div style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1663970206579-c157cba7edda?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFwZWwlMjBkZSUyMHBhcmVkZSUyMHBhcmElMjBwY3xlbnwwfHwwfHx8MA%3D%3D')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                minHeight: '65vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '20px',
-                overflow: 'hidden',  // Adicionar para evitar barra de rolagem
-            }}>
-                <div>
-                    <Image
-                        width={450}
-                        height={400}
-                        src={logoTrab}
-                        alt="logo da empresa"
-                        style={{ maxWidth: '100%', height: 'auto' }}  // Tornando a imagem responsiva
-                    />
-                </div>
-            </div>
         </>
     );
 }
