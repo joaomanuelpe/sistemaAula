@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/sistemaAula/static/css/main.d221dc40.css",
-    "main.js": "/sistemaAula/static/js/main.9835502b.js",
+    "main.js": "/sistemaAula/static/js/main.c37f71e7.js",
     "static/media/logoTrab.webp": "/sistemaAula/static/media/logoTrab.d48105540be69cb9bf7e.webp",
     "index.html": "/sistemaAula/index.html",
     "main.d221dc40.css.map": "/sistemaAula/static/css/main.d221dc40.css.map",
-    "main.9835502b.js.map": "/sistemaAula/static/js/main.9835502b.js.map"
+    "main.c37f71e7.js.map": "/sistemaAula/static/js/main.c37f71e7.js.map"
   },
   "entrypoints": [
     "static/css/main.d221dc40.css",
-    "static/js/main.9835502b.js"
+    "static/js/main.c37f71e7.js"
   ]
 }
