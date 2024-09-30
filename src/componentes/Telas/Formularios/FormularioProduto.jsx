@@ -194,6 +194,9 @@ export default function FormularioProduto(props) {
                                 type="submit"
                                 variant="primary"
                                 style={{ borderRadius: '5px', width: '100%' }}
+                                onClick={() => {
+                                    props.setProduto(produtoInicial);
+                                }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>

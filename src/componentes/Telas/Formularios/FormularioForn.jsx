@@ -196,6 +196,9 @@ export default function FormularioForn(props) {
                                 type="submit"
                                 variant="primary"
                                 style={{ borderRadius: '5px', width: '100%' }}
+                                onClick={() => {
+                                    props.setFornecedor(fornecedorInicial);
+                                }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>

@@ -1,5 +1,6 @@
 import { Alert, Card, Button } from "react-bootstrap";
 import Menu from "../layouts/Menu";
+import { Link } from "react-router-dom";
 
 export default function TelaSobre(props) {
     return (
@@ -34,7 +35,7 @@ export default function TelaSobre(props) {
                         }}>
                             Este site foi desenvolvido pelo aluno João Manuel Oliveira Pereira, estudante de Ciência da Computação na Faculdade de Informática de Presidente Prudente (FIPP), com o intuito de possibilitar o gerenciamento de clientes, fornecedores, produtos, categorias, usuários e entregadores. Esta aplicação foi desenvolvida utilizando Javascript com frameworks como ReactJs, Bootstrap, Node e entre outras que complementaram para finalizar o projeto.
                         </Card.Text>
-                        <Button variant="primary">Saiba mais</Button>
+                        <Button as={Link} to={"https://github.com/joaomanuelpe/sistemaAula"} variant="primary">Saiba mais</Button>
                     </Card.Body>
                 </Card>
             </div>

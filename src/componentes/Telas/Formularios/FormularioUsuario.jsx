@@ -141,6 +141,9 @@ export default function FormularioUsuario(props) {
                                 type="submit"
                                 variant="primary"
                                 style={{ borderRadius: '5px', width: '100%' }}
+                                onClick={() => {
+                                    props.setUsuario(usuarioInicial);
+                                }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>

@@ -172,6 +172,9 @@ export default function FormularioEntregador(props) {
                                 type="submit"
                                 variant="primary"
                                 style={{ borderRadius: '5px', width: '100%' }}
+                                onClick={() => {
+                                    props.setEntregador(entregadorInicial);
+                                }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>

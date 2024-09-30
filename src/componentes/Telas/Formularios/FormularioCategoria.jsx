@@ -102,6 +102,9 @@ export default function FormularioCategoria(props) {
                                 type="submit"
                                 variant="primary"
                                 style={{ borderRadius: '5px', width: '100%' }}
+                                onClick={() => {
+                                    props.setCategoria(categoriaInicial);
+                                }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>
