@@ -1,27 +1,36 @@
 import FormularioProduto from "./Formularios/FormularioProduto"
 import { Alert } from "react-bootstrap";
 import TabelaProdutos from "./Tabelas/TabelaProdutos";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagina from "../../componentes/layouts/Pagina"
-import { produtos } from "../../dados/mockProdutos"
+//import { produtos } from "../../dados/mockProdutos"
+import { consultarProduto } from "../../services/servicoProduto";
 
-export default function TelaCadastroCliente(props) {
+export default function TelaCadastroProduto(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaProdutos, setListaProdutos] = useState(produtos);
+    const [listaProdutos, setListaProdutos] = useState([]);
     const [edicao, setEdicao] = useState(false);
     const [produto, setProduto] = useState({
         codigo: 0,
         descricao: "",
         precoCusto: 0,
         precoVenda: 0,
-        estoque: 0,
+        qtdEstoque: 0,
         urlImagem: "",
-        dtValidade: ""
+        dataValidade: "",
+        categoria: {}
     });
+
+    useEffect(()=>{
+        consultarProduto().then((lista)=>{
+            setListaProdutos(lista);
+        });
+    },[]); //listaVazia -> didMount
+
     return (
         <>
             <Pagina>
-                <Alert className="text-center">
+                <Alert className="mt-2 mb-2 text-center" variant="success">
                     <h2>{exibirTabela ? "Produtos" : edicao ? "Alterar Produto" : "Cadastrar Produto"}</h2>
                 </Alert>
                 {

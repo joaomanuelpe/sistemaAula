@@ -1,0 +1,43 @@
+import { Container, Form, Button } from "react-bootstrap";
+import { useContext, useRef } from "react";
+import { ContextoUsuario } from "../../App";
+
+export default function TelaLogin() {
+    const {usuario, setUsuario} = useContext(ContextoUsuario);
+    const nomeUsuario = useRef();
+    const senha = useRef();
+
+    function handleSubmit(event) {
+        const usuarioDigitado = nomeUsuario.current.value;
+        const senhaDigitada = senha.current.value;
+        if(usuarioDigitado === "admin" && senhaDigitada === "admin") {
+            setUsuario({
+                "usuario":usuarioDigitado,
+                "logado":true
+            })
+        }
+        event.preventDefault();
+        event.stopPropagation();   
+    }
+    
+    return (
+        <Container className="w-25 border p-2">
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicEmail" >
+                    <Form.Label>Usuário</Form.Label>
+                    <Form.Control type="text" id="usuario" name="usuario" placeholder="Informe o usuário" ref={nomeUsuario} />
+                    <Form.Text className="text-muted">
+                        Nunca compartilhe suas credenciais de acesso.
+                    </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Senha:</Form.Label>
+                    <Form.Control type="password" id="senha" name="senha" placeholder="Password" ref={senha} />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Login
+                </Button>
+            </Form>
+        </Container>)
+}

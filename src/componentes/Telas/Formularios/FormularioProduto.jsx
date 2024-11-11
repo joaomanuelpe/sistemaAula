@@ -1,57 +1,125 @@
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { Container, Spinner, Button, Col, Form, Row } from 'react-bootstrap';
+import { consultarCategoria } from '../../../services/servicoCategoria.js';
+import { useState, useEffect } from 'react';
+import { gravarProduto, alterarProduto } from '../../../services/servicoProduto.js';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function FormularioProduto(props) {
+    const [categorias, setCategorias] = useState([]);
+    const [temCategorias, setTemCategorias] = useState(false);
+
+    // Definir o estado inicial do produto
     const produtoInicial = {
         codigo: 0,
         descricao: "",
         precoCusto: 0,
         precoVenda: 0,
-        estoque: 0,
+        qtdEstoque: 0,
         urlImagem: "",
-        dtValidade: ""
+        dataValidade: "",
+        categoria: {}
     };
-    
-    const produtoAlterar = props.produto;
+    const produtoAlterar = props.produto || produtoInicial;
     const [produto, setProduto] = useState(produtoAlterar);
     const [formValidado, setFormValidado] = useState(false);
+
+    useEffect(() => {
+        consultarCategoria().then((resultado) => {
+            if (Array.isArray(resultado)) {
+                setCategorias(resultado);
+                setTemCategorias(true);
+            } else {
+                toast.error("Não foi possível carregar as categorias");
+            }
+        }).catch((erro) => {
+            setTemCategorias(false);
+            toast.error(erro.message);
+        });
+    }, []);
+
+    // Função para selecionar a categoria
+    function selecionarCategoria(event) {
+        setProduto({
+            ...produto,
+            categoria: { codigo: event.currentTarget.value }
+        });
+    }
 
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.edicao) {
-                props.setListaProdutos([...props.listaDeProdutos.map((item) => {
-                    return item.codigo === produtoAlterar.codigo ? produto : item;
-                })]);
-                props.setEdicao(false);
-            } else {
-                props.setListaProdutos([...props.listaDeProdutos, produto]);
+            // Garantir que a data de validade seja formatada corretamente para o backend (YYYY-MM-DD)
+            if (produto.dataValidade && produto.dataValidade.includes("/")) {
+                const [day, month, year] = produto.dataValidade.split("/");
+                produto.dataValidade = `${year}-${month}-${day}`; // Formato YYYY-MM-DD
             }
-            props.setExibirTabela(true);
+
+            if (props.edicao) {
+                alterarProduto(produto)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaProdutos([
+                                ...props.listaDeProdutos.map((item) => {
+                                    return item.codigo === produto.codigo ? produto : item;
+                                })
+                            ]);
+                            props.setExibirTabela(true);
+                            props.setEdicao(false);
+                        } else {
+                            toast.error("Erro ao alterar o produto: " + resultado.mensagem);
+                        }
+                    })
+                    .catch((erro) => {
+                        toast.error("Erro ao atualizar o produto: " + erro.message);
+                    });
+            } else {
+                gravarProduto(produto)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setExibirTabela(true);
+                        } else {
+                            toast.error(resultado.mensagem);
+                        }
+                    });
+            }
+
             setProduto(produtoInicial);
             setFormValidado(false);
         } else {
             setFormValidado(true);
         }
+
         evento.preventDefault();
         evento.stopPropagation();
     }
 
-    function changeControl(evento) {
-        const elemento = evento.target.name;
-        const valor = evento.target.value;
-        setProduto({ ...produto, [elemento]: valor });
-    }
+
+
+    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/; // Regex para validar DD/MM/YYYY
+
+    const changeControl = (event) => {
+        const { name, value } = event.target;
+        if (name === 'dtValidade' && regex.test(value)) {
+            setProduto({
+                ...produto,
+                [name]: value,
+            });
+        } else if (name === 'dtValidade' && value === '') {
+            // Permite campo vazio para limpar se necessário
+            setProduto({
+                ...produto,
+                [name]: value,
+            });
+        }
+    };
 
     return (
         <Container
             fluid
             className="d-flex justify-content-center align-items-center"
-            style={{ height: '100vh', background: 'linear-gradient(to top, #F5BFAE, #F5EDBF)' }}
+            style={{
+                height: '100vh', background: 'linear-gradient(to top, #F5BFAE, #F5EDBF)'
+            }}
         >
             <Container
                 style={{
@@ -75,7 +143,7 @@ export default function FormularioProduto(props) {
                             placeholder="Código do Produto"
                             onChange={changeControl}
                             disabled={props.edicao}
-                            style={{ borderRadius: '5px' }}
+                            style={{ borderRadius: '8px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
@@ -90,44 +158,49 @@ export default function FormularioProduto(props) {
                             value={produto.descricao}
                             onChange={changeControl}
                             placeholder="Descrição do Produto"
-                            style={{ borderRadius: '5px' }}
+                            style={{ borderRadius: '8px' }}
                         />
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Preço de Custo</Form.Label>
-                        <Form.Control
-                            id='precoCusto'
-                            name='precoCusto'
-                            onChange={changeControl}
-                            value={produto.precoCusto}
-                            type="number"
-                            placeholder="R$ XXX.XX"
-                            required
-                            style={{ borderRadius: '5px' }}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <Form.Label>Preço de Venda</Form.Label>
-                        <Form.Control
-                            id='precoVenda'
-                            name='precoVenda'
-                            onChange={changeControl}
-                            value={produto.precoVenda}
-                            type="number"
-                            placeholder="R$ XXX.XX"
-                            required
-                            style={{ borderRadius: '5px' }}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Preço de Custo</Form.Label>
+                                <Form.Control
+                                    id='precoCusto'
+                                    name='precoCusto'
+                                    onChange={changeControl}
+                                    value={produto.precoCusto}
+                                    type="number"
+                                    placeholder="R$ XXX.XX"
+                                    required
+                                    style={{ borderRadius: '8px' }}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor forneça este campo.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Preço de Venda</Form.Label>
+                                <Form.Control
+                                    id='precoVenda'
+                                    name='precoVenda'
+                                    onChange={changeControl}
+                                    value={produto.precoVenda}
+                                    type="number"
+                                    placeholder="R$ XXX.XX"
+                                    required
+                                    style={{ borderRadius: '8px' }}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor forneça este campo.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Estoque</Form.Label>
@@ -138,7 +211,7 @@ export default function FormularioProduto(props) {
                             value={produto.estoque}
                             type="number"
                             required
-                            style={{ borderRadius: '5px' }}
+                            style={{ borderRadius: '8px' }}
                         />
                         <Form.Control.Feedback type="invalid">
                             Por favor forneça este campo.
@@ -155,7 +228,7 @@ export default function FormularioProduto(props) {
                             type="text"
                             placeholder="URL da Imagem"
                             required
-                            style={{ borderRadius: '5px' }}
+                            style={{ borderRadius: '8px' }}
                         />
                         <Form.Control.Feedback type="invalid">
                             Por favor forneça uma URL válida.
@@ -165,43 +238,49 @@ export default function FormularioProduto(props) {
                     <Form.Group className="mb-3">
                         <Form.Label>Data de Validade</Form.Label>
                         <Form.Control
-                            id='dtValidade'
-                            name='dtValidade'
-                            onChange={changeControl}
+                            id="dtValidade"
+                            name="dtValidade"
+                            type="text" // Mudando para texto
                             value={produto.dtValidade}
-                            type="date"
-                            placeholder="dd/mm/aaaa"
+                            onChange={changeControl}
                             required
-                            style={{ borderRadius: '5px' }}
+                            style={{ borderRadius: "8px" }}
+                            disabled={props.modoEdicao} // Desabilita a data no modo de edição
                         />
                         <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo.
+                            Por favor forneça este campo no formato DD/MM/YYYY.
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Check
-                            required
-                            label="Concordo com os termos e diretrizes."
-                            feedback="Você precisa concordar para continuar."
-                            feedbackType="invalid"
-                        />
+                    <Form.Group as={Col} className="mb-3">
+                        <Form.Label>Categoria:</Form.Label>
+                        <Form.Select
+                            id='categoria'
+                            name='categoria'
+                            onChange={selecionarCategoria}
+                            value={produto.categoria?.codigo || ""} // Mantém o valor selecionado corretamente
+                        >
+                            <option value={""} disabled>Selecione uma categoria</option>
+                            {categorias.map((categoria) => (
+                                <option key={categoria.codigo} value={categoria.codigo}>
+                                    {categoria.descricao}
+                                </option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
 
-                    <Row className='mt-2 mb-2'>
-                    <Col md={6}>
+                    <Row className="mt-4">
+                        <Col>
                             <Button
                                 type="submit"
                                 variant="primary"
-                                style={{ borderRadius: '5px', width: '100%' }}
-                                onClick={() => {
-                                    props.setProduto(produtoInicial);
-                                }}
+                                style={{ borderRadius: '8px', width: '100%' }}
+                                disabled={!temCategorias}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>
                         </Col>
-                        <Col md={6}>
+                        <Col>
                             <Button
                                 variant="secondary"
                                 onClick={() => {
@@ -209,12 +288,13 @@ export default function FormularioProduto(props) {
                                     props.setEdicao(false);
                                     props.setProduto(produtoInicial);
                                 }}
-                                style={{ borderRadius: '5px', width: '100%' }}
+                                style={{ borderRadius: '8px', width: '100%' }}
                             >
                                 Voltar
                             </Button>
                         </Col>
                     </Row>
+                    <Toaster position='top-center' />
                 </Form>
             </Container>
         </Container>

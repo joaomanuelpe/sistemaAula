@@ -1,30 +1,30 @@
 import { Button, Container, Table } from "react-bootstrap";
+import { excluirProduto } from "../../../services/servicoProduto";
 
 export default function TabelaProdutos(props) {
 
     function deleteProduct(produto) {
         if (window.confirm("Deseja realmente excluir o produto " + produto.descricao + "?")) {
-            props.setListaProdutos(props.listaDeProdutos.filter((item) => {
-                return item.codigo !== produto.codigo;
-            }));
+            excluirProduto(produto).then((resposta) => {
+                if (resposta.status) {
+                    props.setListaProdutos(props.listaDeProdutos.filter((item) => {
+                        return item.codigo !== produto.codigo;
+                    }));
+                } else {
+                    window.alert("Não foi possível excluir o produto: " + resposta.mensagem);
+                }
+            });
         }
     }
+
 
     function changeProduct(produto) {
         props.setEdicao(true);
         props.setExibirTabela(false);
-        props.setProduto(
-            {
-                codigo: produto.codigo,
-                descricao: produto.descricao,
-                precoCusto: produto.precoCusto,
-                precoVenda: produto.precoVenda,
-                estoque: produto.estoque,
-                urlImagem: produto.urlImagem,
-                dtValidade: produto.dtValidade
-            }
-        );
+        props.setProduto(produto); // Passando o objeto completo do produto, incluindo categoria
     }
+
+
 
     return (
         <>
@@ -42,6 +42,7 @@ export default function TabelaProdutos(props) {
                             <th>Estoque</th>
                             <th>Imagem</th>
                             <th>Data Validade</th>
+                            <th>Categoria</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -54,9 +55,10 @@ export default function TabelaProdutos(props) {
                                         <td>{produto.descricao}</td>
                                         <td>{produto.precoCusto}</td>
                                         <td>{produto.precoVenda}</td>
-                                        <td>{produto.estoque}</td>
+                                        <td>{produto.qtdEstoque}</td>
                                         <td><img src={produto.urlImagem} alt="foto do produto" width={100} height={100} /></td>
-                                        <td>{produto.dtValidade}</td>
+                                        <td>{new Date(produto.dataValidade.split('T')[0]).toLocaleDateString('pt-BR')}</td>
+                                        <td>{produto.categoria ? produto.categoria.descricao : "Sem categoria"}</td>
                                         <td>
                                             <Button variant="warning" onClick={() => {
                                                 changeProduct(produto);

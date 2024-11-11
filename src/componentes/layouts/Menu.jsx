@@ -3,10 +3,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
+import { ContextoUsuario } from '../../App';
 
 export default function Menu(props) {
 
+    const {usuario, setUsuario} = useContext(ContextoUsuario);
+
     function handleLogout() {
+        setUsuario({
+            "usuario":"",
+            "logado":false
+        });
         if (window.confirm("Deseja realmente sair da aplicação?")) {
             window.location.href = "https://www.google.com";
         };
@@ -42,7 +50,7 @@ export default function Menu(props) {
                                 <NavDropdown.Item href="#action/3.1">Vendas</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.1">Compras</NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link as={Link} to="/sobre">Sobre</Nav.Link>
+                            <Nav.Link as={Link} to="/sobre">Usuario logado: {usuario.usuario}</Nav.Link>
                             <Nav.Link onClick={handleLogout} href="#link">Sair</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
