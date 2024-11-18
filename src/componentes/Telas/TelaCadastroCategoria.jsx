@@ -1,9 +1,10 @@
 import FormularioCategoria from "./Formularios/FormularioCategoria.jsx"
 import Pagina from "../layouts/Pagina.jsx"
 import TabelaCategorias from "./Tabelas/TabelaCategorias.jsx"
-import { useState } from "react"
+import { useState , useEffect } from "react"
 import { Alert } from "react-bootstrap"
 import { categorias } from "../../dados/mockCategorias.js"
+import { consultarCategoria } from "../../services/servicoCategoria.js"
 
 
 export default function TelaCadastroCategoria(props) {
@@ -14,6 +15,12 @@ export default function TelaCadastroCategoria(props) {
         codigo: 0,
         descricao: ""
     });
+
+    useEffect(()=>{
+        consultarCategoria().then((lista)=>{
+            setListaDeCategorias(lista);
+        });
+    },[]); //listaVazia -> didMount
 
     //método render
     return (

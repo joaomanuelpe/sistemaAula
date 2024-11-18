@@ -1,22 +1,31 @@
 const urlBase = "https://backend-lp-2.vercel.app/produtos";
 
-export async function gravarProduto(categoria) {
-    const resposta = await fetch(urlBase, {
-        "method":"POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "body":JSON.stringify(categoria)
-    });
-    const resultado = await resposta.json();
-    return resultado;
+function prepararProdutoParaEdicao(produto) {
+    return {
+        ...produto,
+        dataValidade: produto.dataValidade
+            ? produto.dataValidade.split("/").reverse().join("-")
+            : "",
+    };
 }
 
-export function alterarProduto(produto) {
-    return fetch(`https://backend-lp-2.vercel.app/produtos/${produto.codigo}`, {
-        method: 'PUT',
+// Função para gravar um novo produto
+export async function gravarProduto(produto) {
+    const resposta = await fetch(urlBase, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(produto),
+    });
+    return resposta.json();
+}
+
+export async function alterarProduto(produto) {
+    return fetch(`${urlBase}/${produto.codigo}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             descricao: produto.descricao,
@@ -24,29 +33,28 @@ export function alterarProduto(produto) {
             precoVenda: produto.precoVenda,
             qtdEstoque: produto.qtdEstoque,
             urlImagem: produto.urlImagem,
-            dataValidade: produto.dataValidade,
-            categoria: { codigo: produto.categoria.codigo }
+            dataValidade: produto.dataValidade, // dataValidade em 'YYYY-MM-DD'
+            categoria: { codigo: produto.categoria.codigo },
         }),
     })
-    .then((resposta) => resposta.json())
-    .catch((erro) => {
-        throw new Error("Erro ao atualizar o produto: " + erro.message);
-    });
+        .then((resposta) => resposta.json())
+        .catch((erro) => {
+            alert("Erro ao atualizar o produto: " + erro.message);
+        });
 }
 
-
-export async function excluirProduto(categoria) {
-    const resposta = await fetch(urlBase + "/" + categoria.codigo, {
-        "method":"DELETE",
+// Função para excluir um produto
+export async function excluirProduto(produto) {
+    const resposta = await fetch(`${urlBase}/${produto.codigo}`, {
+        method: "DELETE",
     });
-    const resultado = await resposta.json();
-    return resultado;
+    return resposta.json();
 }
 
+// Função para consultar produtos
 export async function consultarProduto() {
-    const resposta = await fetch(urlBase,{
-        'method':"GET"
+    const resposta = await fetch(urlBase, {
+        method: "GET",
     });
-    const resultado = await resposta.json();
-    return resultado;
+    return resposta.json();
 }

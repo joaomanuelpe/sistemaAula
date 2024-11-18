@@ -1,36 +1,72 @@
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { Container, Button, Form, Row, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { gravarCategoria, alterarCategoria } from '../../../services/servicoCategoria';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function FormularioCategoria(props) {
     const categoriaInicial = {
         codigo: 0,
         descricao: ""
-    }
-    const categoriaAlterar = props.categoria;
+    };
+
+    const categoriaAlterar = props.categoria || categoriaInicial;
     const [categoria, setCategoria] = useState(categoriaAlterar);
     const [formValidado, setFormValidado] = useState(false);
 
+    useEffect(() => {
+        if (props.edicao && props.categoria) {
+            setCategoria(props.categoria);
+        } else {
+            setCategoria(categoriaInicial);
+        }
+    }, [props.edicao, props.categoria]);
+
     function handleSubmit(evento) {
         const form = evento.currentTarget;
+
         if (form.checkValidity()) {
             if (props.edicao) {
-                props.setListaDeCategorias([...props.listaDeCategorias.map((aux) => {
-                    return aux.codigo === categoriaAlterar.codigo ? categoria : aux
-                })], categoriaAlterar);
-                props.setEdicao(false);
+                alterarCategoria(categoria)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeCategorias((prevLista) =>
+                                prevLista.map((item) =>
+                                    item.codigo === categoria.codigo ? categoria : item
+                                )
+                            );
+                            props.setEdicao(false);
+                            props.setExibirTabela(true);
+                        } else {
+                            toast.error("Erro ao alterar a categoria: " + resultado.mensagem);
+                        }
+                    })
+                    .catch((erro) =>
+                        toast.error("Erro ao atualizar a categoria: " + erro.message)
+                    );
             } else {
-                props.setListaDeCategorias([...props.listaDeCategorias, categoria])
+                gravarCategoria(categoria)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeCategorias((prevLista) => [
+                                ...prevLista,
+                                categoria,
+                            ]);
+                            props.setExibirTabela(true);
+                        } else {
+                            toast.error("Erro ao salvar a categoria: " + resultado.mensagem);
+                        }
+                    })
+                    .catch((erro) =>
+                        toast.error("Erro ao gravar a categoria: " + erro.message)
+                    );
             }
-            props.setExibirTabela(true);
+
             setCategoria(categoriaInicial);
             setFormValidado(false);
         } else {
             setFormValidado(true);
         }
+
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -38,7 +74,11 @@ export default function FormularioCategoria(props) {
     function changeControl(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setCategoria({ ...categoria, [elemento]: valor });
+
+        setCategoria((prevCategoria) => ({
+            ...prevCategoria,
+            [elemento]: valor,
+        }));
     }
 
     return (
@@ -58,12 +98,12 @@ export default function FormularioCategoria(props) {
                 }}
             >
                 <Form noValidate validated={formValidado} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="codigo">
+                    <Form.Group className="mb-3">
                         <Form.Label>Código</Form.Label>
                         <Form.Control
                             required
                             name="codigo"
-                            type="text"
+                            type="number"
                             placeholder="Código da Categoria"
                             value={categoria.codigo}
                             onChange={changeControl}
@@ -73,7 +113,7 @@ export default function FormularioCategoria(props) {
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="descricao">
+                    <Form.Group className="mb-3">
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control
                             required
@@ -87,42 +127,31 @@ export default function FormularioCategoria(props) {
                         <Form.Control.Feedback>Muito bem!</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Check
-                            required
-                            label="Concordo com os termos e diretrizes."
-                            feedback="Você precisa concordar para continuar."
-                            feedbackType="invalid"
-                        />
-                    </Form.Group>
-
-                    <Row className="mt-4 mb-2">
-                        <Col xs={6}>
+                    <Row className="mt-4">
+                        <Col>
                             <Button
                                 type="submit"
                                 variant="primary"
-                                style={{ borderRadius: '5px', width: '100%' }}
-                                onClick={() => {
-                                    props.setCategoria(categoriaInicial);
-                                }}
+                                style={{ borderRadius: '8px', width: '100%' }}
                             >
                                 {props.edicao ? "Alterar" : "Confirmar"}
                             </Button>
                         </Col>
-                        <Col xs={6}>
+                        <Col>
                             <Button
                                 variant="secondary"
                                 onClick={() => {
                                     props.setExibirTabela(true);
                                     props.setEdicao(false);
-                                    props.setCategoria(categoriaInicial);
+                                    setCategoria(categoriaInicial);
                                 }}
-                                style={{ borderRadius: '5px', width: '100%' }}
+                                style={{ borderRadius: '8px', width: '100%' }}
                             >
                                 Voltar
                             </Button>
                         </Col>
                     </Row>
+                    <Toaster position="top-center" />
                 </Form>
             </Container>
         </Container>

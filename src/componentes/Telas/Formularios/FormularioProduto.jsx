@@ -37,6 +37,24 @@ export default function FormularioProduto(props) {
         });
     }, []);
 
+    useEffect(() => {
+        if (props.edicao && props.produto) {
+            // Modo de edição: carrega o produto selecionado
+            setProduto(props.produto);
+        } else {
+            // Modo de adição: redefine para o estado inicial
+            setProduto(produtoInicial);
+        }
+    }, [props.edicao, props.produto]);
+
+    
+    useEffect(() => {
+        if (!props.edicao) {
+            setProduto(produtoInicial); // Redefine para um produto vazio ao sair do modo de edição
+        }
+    }, [props.edicao]);
+    
+
     // Função para selecionar a categoria
     function selecionarCategoria(event) {
         setProduto({
@@ -48,56 +66,53 @@ export default function FormularioProduto(props) {
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            // Garantir que a data de validade seja formatada corretamente para o backend (YYYY-MM-DD)
-            if(produto.dataValidade){
-                setProduto({...props.produto, ["dataValidade"]:new Date(produto.dataValidade).toDateString()})
-            }
-
             if (props.edicao) {
                 alterarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
-                            props.setListaProdutos([
-                                ...props.listaDeProdutos.map((item) => {
-                                    return item.codigo === produto.codigo ? produto : item;
-                                })
-                            ]);
+                            props.setListaProdutos((prevLista) =>
+                                prevLista.map((item) =>
+                                    item.codigo === produto.codigo ? produto : item
+                                )
+                            );
                             props.setExibirTabela(true);
                             props.setEdicao(false);
                         } else {
                             toast.error("Erro ao alterar o produto: " + resultado.mensagem);
                         }
                     })
-                    .catch((erro) => {
-                        toast.error("Erro ao atualizar o produto: " + erro.message);
-                    });
+                    .catch((erro) => toast.error("Erro ao atualizar o produto: " + erro.message));
             } else {
                 gravarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
+                            props.setListaProdutos((prevLista) => [...prevLista, produto]);
                             props.setExibirTabela(true);
                         } else {
                             toast.error(resultado.mensagem);
                         }
                     });
             }
-
+    
             setProduto(produtoInicial);
             setFormValidado(false);
         } else {
             setFormValidado(true);
         }
-
+    
         evento.preventDefault();
         evento.stopPropagation();
-    }
+    }    
 
 
 
     function changeControl(evento) {
         const elemento = evento.target.id;
         const valor = evento.target.value;
-        setProduto({...props.produto, [elemento]:valor})
+        setProduto((prevProduto) => ({
+            ...prevProduto,
+            [elemento]: valor,
+        }));
     }
 
     return (
@@ -192,10 +207,10 @@ export default function FormularioProduto(props) {
                     <Form.Group className="mb-3">
                         <Form.Label>Estoque</Form.Label>
                         <Form.Control
-                            id='estoque'
-                            name='estoque'
+                            id='qtdEstoque'
+                            name='qtdEstoque'
                             onChange={changeControl}
-                            value={produto.estoque}
+                            value={produto.qtdEstoque}
                             type="number"
                             required
                             style={{ borderRadius: '8px' }}
@@ -225,10 +240,10 @@ export default function FormularioProduto(props) {
                     <Form.Group className="mb-3">
                         <Form.Label>Data de Validade</Form.Label>
                         <Form.Control
-                            id='dtValidade'
-                            name='dtValidade'
+                            id='dataValidade'
+                            name='dataValidade'
                             onChange={changeControl}
-                            value={produto.dtValidade}
+                            value={produto.dataValidade}
                             type="date"
                             required
                             style={{ borderRadius: '8px' }}
@@ -272,7 +287,7 @@ export default function FormularioProduto(props) {
                                 onClick={() => {
                                     props.setExibirTabela(true);
                                     props.setEdicao(false);
-                                    props.setProduto(produtoInicial);
+                                    setProduto(produtoInicial);
                                 }}
                                 style={{ borderRadius: '8px', width: '100%' }}
                             >
