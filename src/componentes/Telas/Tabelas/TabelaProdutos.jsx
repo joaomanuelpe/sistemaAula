@@ -57,7 +57,7 @@ export default function TabelaProdutos(props) {
                                         <td>{produto.precoVenda}</td>
                                         <td>{produto.qtdEstoque}</td>
                                         <td><img src={produto.urlImagem} alt="foto do produto" width={100} height={100} /></td>
-                                        <td>{new Date(produto.dataValidade.split('T')[0]).toLocaleDateString('pt-BR')}</td>
+                                        <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
                                         <td>{produto.categoria ? produto.categoria.descricao : "Sem categoria"}</td>
                                         <td>
                                             <Button variant="warning" onClick={() => {

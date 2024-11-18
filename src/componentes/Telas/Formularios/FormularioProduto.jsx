@@ -49,9 +49,8 @@ export default function FormularioProduto(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             // Garantir que a data de validade seja formatada corretamente para o backend (YYYY-MM-DD)
-            if (produto.dataValidade && produto.dataValidade.includes("/")) {
-                const [day, month, year] = produto.dataValidade.split("/");
-                produto.dataValidade = `${year}-${month}-${day}`; // Formato YYYY-MM-DD
+            if(produto.dataValidade){
+                setProduto({...props.produto, ["dataValidade"]:new Date(produto.dataValidade).toDateString()})
             }
 
             if (props.edicao) {
@@ -95,23 +94,11 @@ export default function FormularioProduto(props) {
 
 
 
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/; // Regex para validar DD/MM/YYYY
-
-    const changeControl = (event) => {
-        const { name, value } = event.target;
-        if (name === 'dtValidade' && regex.test(value)) {
-            setProduto({
-                ...produto,
-                [name]: value,
-            });
-        } else if (name === 'dtValidade' && value === '') {
-            // Permite campo vazio para limpar se necessário
-            setProduto({
-                ...produto,
-                [name]: value,
-            });
-        }
-    };
+    function changeControl(evento) {
+        const elemento = evento.target.id;
+        const valor = evento.target.value;
+        setProduto({...props.produto, [elemento]:valor})
+    }
 
     return (
         <Container
@@ -238,17 +225,16 @@ export default function FormularioProduto(props) {
                     <Form.Group className="mb-3">
                         <Form.Label>Data de Validade</Form.Label>
                         <Form.Control
-                            id="dtValidade"
-                            name="dtValidade"
-                            type="text" // Mudando para texto
-                            value={produto.dtValidade}
+                            id='dtValidade'
+                            name='dtValidade'
                             onChange={changeControl}
+                            value={produto.dtValidade}
+                            type="date"
                             required
-                            style={{ borderRadius: "8px" }}
-                            disabled={props.modoEdicao} // Desabilita a data no modo de edição
+                            style={{ borderRadius: '8px' }}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Por favor forneça este campo no formato DD/MM/YYYY.
+                            Por favor forneça este campo.
                         </Form.Control.Feedback>
                     </Form.Group>
 
