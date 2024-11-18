@@ -8,7 +8,6 @@ export default function FormularioProduto(props) {
     const [categorias, setCategorias] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
 
-    // Definir o estado inicial do produto
     const produtoInicial = {
         codigo: 0,
         descricao: "",
@@ -39,7 +38,6 @@ export default function FormularioProduto(props) {
 
     useEffect(() => {
         if (props.edicao && props.produto) {
-            // Modo de edição: carrega o produto selecionado
             setProduto(props.produto);
         } else {
             // Modo de adição: redefine para o estado inicial
@@ -50,12 +48,10 @@ export default function FormularioProduto(props) {
     
     useEffect(() => {
         if (!props.edicao) {
-            setProduto(produtoInicial); // Redefine para um produto vazio ao sair do modo de edição
+            setProduto(produtoInicial); 
         }
     }, [props.edicao]);
     
-
-    // Função para selecionar a categoria
     function selecionarCategoria(event) {
         setProduto({
             ...produto,

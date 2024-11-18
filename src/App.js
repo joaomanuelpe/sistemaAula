@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TelaCadastroCategoria from "./componentes/Telas/TelaCadastroCategoria.jsx";
 import TelaMenu from "./componentes/Telas/TelaMenu.jsx";
-//import Tela404 from "./componentes/Telas/Tela404.jsx";
 import TelaCadastroCliente from "./componentes/Telas/TelaCadastroCliente.jsx";
 import TelaCadastroForn from "./componentes/Telas/TelaCadastroForn.jsx";
 import TelaCadastroProduto from "./componentes/Telas/TelaCadastroProduto.jsx";
@@ -10,6 +9,8 @@ import TelaCadastroEntregador from "./componentes/Telas/TelaCadastroEntregador.j
 import TelaSobre from "./componentes/Telas/TelaSobre.jsx";
 import TelaLogin from "./componentes/Telas/TelaLogin.jsx";
 import { useState, createContext } from "react";
+import store from "./redux/store.js";
+import { Provider } from "react-redux";
 
 export const ContextoUsuario = createContext();
 
@@ -29,26 +30,27 @@ function App() {
   } else {
     return (
       <div className="App">
-        <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
-          <BrowserRouter>
-            {
-              //A ordem das rotas é importante
-            }
-            <Routes>
-              <Route path="/cliente" element={<TelaCadastroCliente />} />
-              <Route path="/fornecedor" element={<TelaCadastroForn />} />
-              <Route path="/produto" element={<TelaCadastroProduto />} />
-              <Route path="/categoria" element={<TelaCadastroCategoria />} />
-              <Route path="/login" element={<TelaLogin />} />
-              <Route path="/usuario" element={<TelaCadastroUsuario />} />
-              <Route path="/entregador" element={<TelaCadastroEntregador />} />
-              <Route path="/sobre" element={<TelaSobre />} />
-              <Route path="*" element={<TelaMenu />} />
-              {/* <Route path="*" element={<Tela404 />} /> */}
-            </Routes>
-          </BrowserRouter>
-        </ContextoUsuario.Provider>
-
+        <Provider>
+          <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
+            <BrowserRouter>
+              {
+                //A ordem das rotas é importante
+              }
+              <Routes>
+                <Route path="/cliente" element={<TelaCadastroCliente />} />
+                <Route path="/fornecedor" element={<TelaCadastroForn />} />
+                <Route path="/produto" element={<TelaCadastroProduto />} />
+                <Route path="/categoria" element={<TelaCadastroCategoria />} />
+                <Route path="/login" element={<TelaLogin />} />
+                <Route path="/usuario" element={<TelaCadastroUsuario />} />
+                <Route path="/entregador" element={<TelaCadastroEntregador />} />
+                <Route path="/sobre" element={<TelaSobre />} />
+                <Route path="*" element={<TelaMenu />} />
+                {/* <Route path="*" element={<Tela404 />} /> */}
+              </Routes>
+            </BrowserRouter>
+          </ContextoUsuario.Provider>
+        </Provider>
       </div>
     );
   }

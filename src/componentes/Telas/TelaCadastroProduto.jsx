@@ -2,13 +2,10 @@ import FormularioProduto from "./Formularios/FormularioProduto"
 import { Alert } from "react-bootstrap";
 import TabelaProdutos from "./Tabelas/TabelaProdutos";
 import { useEffect, useState } from "react";
-import Pagina from "../../componentes/layouts/Pagina"
-//import { produtos } from "../../dados/mockProdutos"
-import { consultarProduto } from "../../services/servicoProduto";
+import Pagina from "../../componentes/layouts/Pagina";
 
 export default function TelaCadastroProduto(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaProdutos, setListaProdutos] = useState([]);
     const [edicao, setEdicao] = useState(false);
     const [produto, setProduto] = useState({
         codigo: 0,
@@ -35,7 +32,7 @@ export default function TelaCadastroProduto(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaProdutos listaDeProdutos={listaProdutos} setListaProdutos={setListaProdutos} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} /> : <FormularioProduto listaDeProdutos={listaProdutos} setListaProdutos={setListaProdutos} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} />
+                        <TabelaProdutos setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} /> : <FormularioProduto setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} />
                 }
             </Pagina>
         </>
