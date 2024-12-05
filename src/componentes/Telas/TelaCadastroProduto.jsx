@@ -18,12 +18,6 @@ export default function TelaCadastroProduto(props) {
         categoria: {}
     });
 
-    useEffect(()=>{
-        consultarProduto().then((lista)=>{
-            setListaProdutos(lista);
-        });
-    },[]); //listaVazia -> didMount
-
     return (
         <>
             <Pagina>

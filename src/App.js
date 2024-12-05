@@ -30,7 +30,7 @@ function App() {
   } else {
     return (
       <div className="App">
-        <Provider>
+        <Provider store={store}>
           <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
             <BrowserRouter>
               {

@@ -4,7 +4,7 @@ function prepararProdutoParaEdicao(produto) {
     return {
         ...produto,
         dataValidade: produto.dataValidade
-            ? produto.dataValidade.split("/").reverse().join("-")
+            ? produto.dataValidade.split("T")[0] 
             : "",
     };
 }
@@ -22,7 +22,8 @@ export async function gravarProduto(produto) {
 }
 
 export async function alterarProduto(produto) {
-    return fetch(`${urlBase}/${produto.codigo}`, {
+    console.log(produto)
+    const resposta = await fetch(urlBase + "/" + produto.codigo, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -33,17 +34,14 @@ export async function alterarProduto(produto) {
             precoVenda: produto.precoVenda,
             qtdEstoque: produto.qtdEstoque,
             urlImagem: produto.urlImagem,
-            dataValidade: produto.dataValidade, // dataValidade em 'YYYY-MM-DD'
+            dataValidade: produto.dataValidade.split("T")[0],
             categoria: { codigo: produto.categoria.codigo },
         }),
     })
-        .then((resposta) => resposta.json())
-        .catch((erro) => {
-            alert("Erro ao atualizar o produto: " + erro.message);
-        });
+    const resultado = await resposta.json();
+    return resultado;
 }
 
-// Função para excluir um produto
 export async function excluirProduto(produto) {
     const resposta = await fetch(`${urlBase}/${produto.codigo}`, {
         method: "DELETE",
@@ -51,7 +49,6 @@ export async function excluirProduto(produto) {
     return resposta.json();
 }
 
-// Função para consultar produtos
 export async function consultarProduto() {
     const resposta = await fetch(urlBase, {
         method: "GET",
