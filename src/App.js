@@ -34,7 +34,7 @@ function App() {
     <Provider store={store}>
       <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
         {usuario.logado ? (
-          <BrowserRouter>
+          <BrowserRouter basename="/joaomanuelpe.github.io/sistemaAula">
             <Routes>
               <Route path="/cliente" element={<TelaCadastroCliente usuAdm={usuAdm}/>} />
               <Route path="/fornecedor" element={<TelaCadastroForn usuAdm={usuAdm}/>} />
