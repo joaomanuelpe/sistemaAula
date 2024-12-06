@@ -47,15 +47,14 @@ export default function TabelaProdutos(props) {
     return (
       <>
         <Container>
-          <Button
+          {props.usuarioAdm && (<Button
             className="mb-3"
             variant="primary"
             onClick={() => {
               props.setExibirTabela(false);
             }}
-          >
-            Adicionar
-          </Button>
+          > Adicionar
+          </Button>)}
           <Table className="mt-4" striped bordered hover>
             <thead>
               <tr>
@@ -67,11 +66,13 @@ export default function TabelaProdutos(props) {
                 <th>Imagem</th>
                 <th>Data Validade</th>
                 <th>Categoria</th>
-                <th>Ações</th>
+                <th>Fornecedor</th>
+                {props.usuarioAdm && (<th>Ações</th>)}
               </tr>
             </thead>
             <tbody>
               {listaDeProdutos?.map((produto) => {
+                console.log(produto)
                 return (
                   <tr>
                     <td>{produto.codigo}</td>
@@ -96,6 +97,11 @@ export default function TabelaProdutos(props) {
                         : "Sem categoria"}
                     </td>
                     <td>
+                      {
+                        produto.fornecedor ? produto.fornecedor.cnpj : "Sem Fornecedor"
+                      }
+                    </td>
+                    {props.usuarioAdm && (<td>
                       <Button
                         variant="warning"
                         onClick={() => {
@@ -135,7 +141,7 @@ export default function TabelaProdutos(props) {
                           <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                         </svg>
                       </Button>
-                    </td>
+                    </td>)}
                   </tr>
                 );
               })}

@@ -15,8 +15,11 @@ export default function TelaCadastroProduto(props) {
         qtdEstoque: 0,
         urlImagem: "",
         dataValidade: "",
-        categoria: {}
+        categoria: {},
+        fornecedor: {}
     });
+    const usuarioAdm = props.usuAdm;
+    console.log(usuarioAdm);
 
     return (
         <>
@@ -26,7 +29,7 @@ export default function TelaCadastroProduto(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaProdutos setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} /> : <FormularioProduto setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} />
+                        <TabelaProdutos usuarioAdm={usuarioAdm} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} /> : <FormularioProduto setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} produto={produto} setProduto={setProduto} />
                 }
             </Pagina>
         </>

@@ -22,7 +22,6 @@ export async function gravarProduto(produto) {
 }
 
 export async function alterarProduto(produto) {
-    console.log(produto)
     const resposta = await fetch(urlBase + "/" + produto.codigo, {
         method: "PUT",
         headers: {
@@ -36,6 +35,7 @@ export async function alterarProduto(produto) {
             urlImagem: produto.urlImagem,
             dataValidade: produto.dataValidade.split("T")[0],
             categoria: { codigo: produto.categoria.codigo },
+            fornecedor: { cnpj: produto.fornecedor.cnpj},
         }),
     })
     const resultado = await resposta.json();

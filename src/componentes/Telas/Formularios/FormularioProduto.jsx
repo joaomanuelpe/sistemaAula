@@ -13,10 +13,13 @@ import { incluirProduto , atualizarProduto } from "../../../redux/produtoReducer
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import ESTADO from "../../../redux/estados.js";
+import { consultarFornecedor } from "../../../services/servicoFornecedor.js";
 
 export default function FormularioProduto(props) {
   const [categorias, setCategorias] = useState([]);
   const [temCategorias, setTemCategorias] = useState(false);
+  const [fornecedores, setFornecedores] = useState([]);
+  const [temFornecedores, setTemFornecedores] = useState(false);
   const { estado, mensagem } = useSelector((state) => state.produto);
   const despachante = useDispatch();
 
@@ -29,6 +32,7 @@ export default function FormularioProduto(props) {
     urlImagem: "",
     dataValidade: "",
     categoria: {},
+    fornecedor: {},
   };
   const produtoAlterar = props.edicao ? props.produto : produtoInicial;
   const [produto, setProduto] = useState(produtoAlterar);
@@ -50,11 +54,34 @@ export default function FormularioProduto(props) {
       });
   }, []);
 
+  useEffect(() => {
+    consultarFornecedor()
+    .then((resultado) => {
+      if (Array.isArray(resultado)) {
+        setFornecedores(resultado);
+        setTemFornecedores(true);
+      } else {
+        toast.error("Não foi possível carregar os fornecedores")
+      }
+    })
+    .catch((erro) => {
+      setTemFornecedores(false);
+      toast.error(erro.message);
+    }) 
+  })
+
   function selecionarCategoria(event) {
     setProduto({
       ...produto,
       categoria: { codigo: event.currentTarget.value },
     });
+  }
+
+  function selecionarFornecedor(event) {
+    setProduto({
+      ...produto,
+      fornecedor: { cnpj: event.currentTarget.value },
+    })
   }
 
   function handleSubmit(evento) {
@@ -269,13 +296,32 @@ function changeControl(evento) {
               </Form.Select>
             </Form.Group>
 
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Fornecedor:</Form.Label>
+              <Form.Select
+                id="fornecedor"
+                name="fornecedor"
+                onChange={selecionarFornecedor}
+                value={produto.fornecedor?.cnpj || ""} // Mantém o valor selecionado corretamente
+              >
+                <option value={""} disabled>
+                  Selecione um fornecedor
+                </option>
+                {fornecedores.map((fornecedor) => (
+                  <option key={fornecedor.cnpj} value={fornecedor.cnpj}>
+                    {fornecedor.nome}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
             <Row className="mt-4">
               <Col>
                 <Button
                   type="submit"
                   variant="primary"
                   style={{ borderRadius: "8px", width: "100%" }}
-                  disabled={!temCategorias}
+                  disabled={!temCategorias && !temFornecedores}
                 >
                   {props.edicao ? "Alterar" : "Confirmar"}
                 </Button>

@@ -3,7 +3,7 @@ import FormularioCliente from "../Telas/Formularios/FormularioCliente.jsx"
 import TabelaClientes from "./Tabelas/TabelaClientes.jsx";
 import Pagina from "../layouts/Pagina.jsx"
 import { Alert } from "react-bootstrap";
-import { clientes } from "../../dados/mockClientes.js"
+import { clientes } from "../../dados/mockClientes.js";
 
 export default function TelaCadastroCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
@@ -19,6 +19,8 @@ export default function TelaCadastroCliente(props) {
         estado: ""
 
     })
+    const usuarioAdm = props.usuAdm;
+    console.log(usuarioAdm);
     return (
         <>
             <Pagina>
@@ -27,7 +29,7 @@ export default function TelaCadastroCliente(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaClientes listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/> : <FormularioCliente listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/>
+                        <TabelaClientes usuarioAdm={usuarioAdm} listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/> : <FormularioCliente listaDeClientes={listaDeClientes} setListaClientes={setListaClientes} setExibirTabela={setExibirTabela} cliente={cliente} setCliente={setCliente} edicao={edicao} setEdicao={setEdicao}/>
                 }
             </Pagina>
         </>

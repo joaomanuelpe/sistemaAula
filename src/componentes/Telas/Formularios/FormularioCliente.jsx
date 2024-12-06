@@ -1,9 +1,9 @@
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { Container , Button , Col , Form , Row , Spinner , Alert} from 'react-bootstrap';
+import { useState , useEffect} from 'react';
+import { incluirCliente , atualizarCliente } from '../../../redux/clienteReducer';
+import toast from 'react-hot-toast';
+import { useDispatch , useSelector } from 'react-redux';
+import ESTADO from '../../../redux/estados';
 
 export default function FormularioCliente(props) {
     const clienteInicial = {
@@ -18,15 +18,18 @@ export default function FormularioCliente(props) {
     const clienteAlterar = props.cliente;
     const [cliente, setCliente] = useState(clienteAlterar);
     const [formValidado, setFormValidado] = useState(false);
+    const { estado , mensagem } = useSelector((state) => state.cliente);
+    const despachante = useDispatch();
 
     function handleSubmit(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (props.edicao) {
-                props.setListaClientes([...props.listaDeClientes.map((aux) => { return aux.cpf === clienteAlterar.cpf ? cliente : aux })], clienteAlterar);
-                props.setEdicao(false);
+                despachante(atualizarCliente(cliente));
+                toast.success("Cliente atualizado com sucesso!");
             } else {
-                props.setListaClientes([...props.listaDeClientes, cliente]);
+                despachante(incluirCliente(cliente));
+                toast.success("Cliente cadastrado com sucesso!");
             }
             props.setExibirTabela(true);
             setCliente(clienteInicial);

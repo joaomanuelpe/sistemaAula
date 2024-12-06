@@ -15,6 +15,8 @@ export default function TelaCadastroCategoria(props) {
         codigo: 0,
         descricao: ""
     });
+    const usuarioAdm = props.usuAdm;
+    console.log(usuarioAdm);
 
     useEffect(()=>{
         consultarCategoria().then((lista)=>{
@@ -31,7 +33,7 @@ export default function TelaCadastroCategoria(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaCategorias listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} /> : <FormularioCategoria listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} />
+                        <TabelaCategorias usuarioAdm = {usuarioAdm}  listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} /> : <FormularioCategoria listaDeCategorias={listaDeCategorias} setListaDeCategorias={setListaDeCategorias} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} categoria={categoria} setCategoria={setCategoria} />
                 }
             </Pagina>
         </>

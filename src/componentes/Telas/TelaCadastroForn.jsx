@@ -3,21 +3,27 @@ import FormularioForn from "../Telas/Formularios/FormularioForn.jsx"
 import TabelaFornecedor from "./Tabelas/TabelaFornecedor.jsx";
 import Pagina from "../layouts/Pagina.jsx"
 import { Alert } from "react-bootstrap";
-import { fornecedores } from "../../dados/mockFornecedores.js"
+import { fornecedores } from "../../dados/mockFornecedores.js";
+import TabelaProdForn from "./Tabelas/TabelaProdForn.jsx";
 
-export default function TelaCadastroCliente(props) {
+export default function TelaCadastroForn(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeFornecedores, setListaDeFornecedores] = useState(fornecedores);
     const [edicao, setEdicao] = useState(false);
     const [fornecedor, setFornecedor] = useState({
         nome: "",
-        cpf: "",
+        cnpj: "",
         telefone: "",
         bairro: "",
         rua: "",
         cidade: "",
-        estado: ""
+        estado: "",
+        cep:""
     });
+    const [exibirTabelaProdForn, setExibirTabelaProdForn] = useState(false);
+    const [produtosDesteFornecedor, setProdutosDesteFornecedor] = useState([]);
+    const usuarioAdm = props.usuAdm;
+    console.log(usuarioAdm);
 
     return (
         <>
@@ -27,7 +33,20 @@ export default function TelaCadastroCliente(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaFornecedor listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} fornecedor={fornecedor} setFornecedor={setFornecedor} /> : <FormularioForn listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} fornecedor={fornecedor} setFornecedor={setFornecedor} />
+                    <TabelaFornecedor 
+                    usuarioAdm ={usuarioAdm}
+                    listaDeFornecedores={listaDeFornecedores} 
+                    setListaDeFornecedores={setListaDeFornecedores} 
+                    setExibirTabela={setExibirTabela} 
+                    edicao={edicao} 
+                    setEdicao={setEdicao} 
+                    fornecedor={fornecedor} 
+                    setFornecedor={setFornecedor} 
+                    produtosDesteFornecedor={produtosDesteFornecedor} 
+                    setProdutosDesteFornecedor={setProdutosDesteFornecedor} 
+                    setExibirTabelaProdForn={setExibirTabelaProdForn} 
+                  /> : exibirTabelaProdForn ? <TabelaProdForn edicao={edicao} setEdicao={setEdicao} setExibirTabela={setExibirTabela} exibirTabelaProdForn = {exibirTabelaProdForn} setExibirTabelaProdForn={setExibirTabelaProdForn} produtosDesteFornecedor = {produtosDesteFornecedor} setProdutosDesteFornecedor={setProdutosDesteFornecedor} fornecedor={fornecedor} setFornecedor={setFornecedor}/> : <FormularioForn listaDeFornecedores={listaDeFornecedores} setListaDeFornecedores={setListaDeFornecedores} setExibirTabela={setExibirTabela} edicao={edicao} setEdicao={setEdicao} fornecedor={fornecedor} setFornecedor={setFornecedor} produtosDesteFornecedor = {produtosDesteFornecedor} setProdutosDesteFornecedor={setProdutosDesteFornecedor}
+                  setExibirTabelaProdForn={setExibirTabelaProdForn}/>
                 }
             </Pagina>
         </>

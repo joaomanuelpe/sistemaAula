@@ -20,7 +20,8 @@ export default function TelaCadastroEntregador(props) {
             capacidadeMax:0,
         }
     )
-
+    const usuarioAdm = props.usuAdm;
+    console.log(usuarioAdm);
 
     return (
         <>
@@ -30,7 +31,7 @@ export default function TelaCadastroEntregador(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaEntregador listaDeEntregadores={listaDeEntregadores} setListaEntregadores={setListaEntregadores} setExibirTabela={setExibirTabela} entregador={entregador} setEntregador={setEntregador} edicao={edicao} setEdicao={setEdicao}/> : <FormularioEntregador listaDeEntregadores={listaDeEntregadores} setListaEntregadores={setListaEntregadores} setExibirTabela={setExibirTabela} entregador={entregador} setEntregador={setEntregador} edicao={edicao} setEdicao={setEdicao}/>
+                        <TabelaEntregador usuarioAdm={usuarioAdm} listaDeEntregadores={listaDeEntregadores} setListaEntregadores={setListaEntregadores} setExibirTabela={setExibirTabela} entregador={entregador} setEntregador={setEntregador} edicao={edicao} setEdicao={setEdicao}/> : <FormularioEntregador listaDeEntregadores={listaDeEntregadores} setListaEntregadores={setListaEntregadores} setExibirTabela={setExibirTabela} entregador={entregador} setEntregador={setEntregador} edicao={edicao} setEdicao={setEdicao}/>
                 }
             </Pagina>
         </>

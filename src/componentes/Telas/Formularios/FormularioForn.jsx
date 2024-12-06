@@ -34,6 +34,7 @@ export default function FormularioForn(props) {
         despachante(atualizarFornecedor(fornecedor));
         toast.success("Fornecedor atualizado com sucesso!");
       } else {
+        console.log(fornecedor)
         despachante(incluirFornecedor(fornecedor));
         toast.success("Fornecedor cadastrado com sucesso!");
       }
@@ -122,7 +123,7 @@ export default function FormularioForn(props) {
                 id="cnpj"
                 name="cnpj"
                 type="text"
-                placeholder="XXX.XXX.XXX-XX"
+                placeholder="XX.XXX.XXX/XXXX-XX"
                 value={fornecedor.cnpj}
                 onChange={changeControl}
                 disabled={props.edicao}
@@ -206,6 +207,23 @@ export default function FormularioForn(props) {
                 type="text"
                 placeholder="Estado"
                 value={fornecedor.estado}
+                onChange={changeControl}
+                style={{ borderRadius: "5px" }}
+              />
+              <Form.Control.Feedback type="invalid">
+                Por favor forneça este campo.
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="cep">
+              <Form.Label>CEP</Form.Label>
+              <Form.Control
+                required
+                id="cep"
+                name="cep"
+                type="text"
+                placeholder="XXXXX-XXX"
+                value={fornecedor.cep}
                 onChange={changeControl}
                 style={{ borderRadius: "5px" }}
               />
